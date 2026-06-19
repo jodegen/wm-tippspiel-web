@@ -65,14 +65,14 @@ kombiniert mit Spieltag.
 **Independent Test**: `/spielplan` öffnen; alle Spiele werden angezeigt; Phasen- und
 Tagesfilter kombinierbar; Anstoßzeiten in Europe/Berlin; Leer-/Fehlerzustände greifen.
 
-- [ ] T016 [P] [US1] `getMatches(filters)`-Datenfunktion (ISR `revalidate: 60`) auf Basis `apiGet` in `lib/api/matches.ts`
-- [ ] T017 [P] [US1] `MatchStatusBadge` (scheduled/live/finished) in `components/match/MatchStatusBadge.tsx`
-- [ ] T018 [P] [US1] `ScoreDisplay` (Ergebnis bzw. „ausstehend") in `components/match/ScoreDisplay.tsx`
-- [ ] T019 [US1] `MatchCard` (Begegnung, Anstoßzeit via `formatKickoff`, TV-Sender, Quote, Status, Ergebnis; fehlende optionale Felder neutral) in `components/match/MatchCard.tsx` (nutzt T017, T018)
-- [ ] T020 [US1] Reine Filterlogik (Phase exklusiv Gruppe/K.o. UND Tag) in `lib/filters.ts`
-- [ ] T021 [US1] Filter-UI (Phasen-Auswahl + Tag) mit URL-Suchparametern in `components/match/SpielplanFilters.tsx`
-- [ ] T022 [US1] Seite `app/spielplan/page.tsx` (Server-Component, ISR): lädt Matches, wendet Filter an, rendert `MatchCard`-Liste, Empty-/Error-States
-- [ ] T023 [P] [US1] Unit-Test der Filterlogik in `tests/unit/filters.test.ts`
+- [X] T016 [P] [US1] `getMatches(filters)`-Datenfunktion (ISR `revalidate: 60`) auf Basis `apiGet` in `lib/api/matches.ts`
+- [X] T017 [P] [US1] `MatchStatusBadge` (scheduled/live/finished) in `components/match/MatchStatusBadge.tsx`
+- [X] T018 [P] [US1] `ScoreDisplay` (Ergebnis bzw. „ausstehend") in `components/match/ScoreDisplay.tsx`
+- [X] T019 [US1] `MatchCard` (Begegnung, Anstoßzeit via `formatKickoff`, TV-Sender, Quote, Status, Ergebnis; fehlende optionale Felder neutral) in `components/match/MatchCard.tsx` (nutzt T017, T018)
+- [X] T020 [US1] Reine Filterlogik (Phase exklusiv Gruppe/K.o. UND Tag) in `lib/filters.ts`
+- [X] T021 [US1] Filter-UI (Phasen-Auswahl + Tag) mit URL-Suchparametern in `components/match/SpielplanFilters.tsx`
+- [X] T022 [US1] Seite `app/spielplan/page.tsx` (Server-Component, ISR): lädt Matches, wendet Filter an, rendert `MatchCard`-Liste, Empty-/Error-States
+- [X] T023 [P] [US1] Unit-Test der Filterlogik in `tests/unit/filters.test.ts`
 
 **Checkpoint**: Spielplan vollständig funktionsfähig und unabhängig testbar (MVP)
 
@@ -86,10 +86,10 @@ und Rang-Veränderung (Bezug: vorheriger Spieltag), mit Link zum Profil.
 **Independent Test**: `/leaderboard` öffnen; alle Einträge sichtbar; Veränderung
 auf/ab/gleich erkennbar; Klick führt zu `/profil/[id]`.
 
-- [ ] T024 [P] [US2] `getLeaderboard()`-Datenfunktion (ISR `revalidate: 60`) in `lib/api/leaderboard.ts`
-- [ ] T025 [P] [US2] `RankDeltaIndicator` (auf/ab/gleich, visuell unterscheidbar) in `components/leaderboard/RankDeltaIndicator.tsx`
-- [ ] T026 [US2] `LeaderboardTable` (responsiv; Rang, Name, Punkte, exakte Treffer, Delta; Zeile verlinkt auf `/profil/[id]`) in `components/leaderboard/LeaderboardTable.tsx` (nutzt T025)
-- [ ] T027 [US2] Seite `app/leaderboard/page.tsx` (Server-Component, ISR): lädt vollständige Rangliste, rendert Tabelle, Empty-/Error-States
+- [X] T024 [P] [US2] `getLeaderboard()`-Datenfunktion (ISR `revalidate: 60`) in `lib/api/leaderboard.ts`
+- [X] T025 [P] [US2] `RankDeltaIndicator` (auf/ab/gleich, visuell unterscheidbar) in `components/leaderboard/RankDeltaIndicator.tsx`
+- [X] T026 [US2] `LeaderboardTable` (responsiv; Rang, Name, Punkte, exakte Treffer, Delta; Zeile verlinkt auf `/profil/[id]`) in `components/leaderboard/LeaderboardTable.tsx` (nutzt T025)
+- [X] T027 [US2] Seite `app/leaderboard/page.tsx` (Server-Component, ISR): lädt vollständige Rangliste, rendert Tabelle, Empty-/Error-States
 
 **Checkpoint**: Spielplan UND Leaderboard funktionieren unabhängig
 

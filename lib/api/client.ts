@@ -58,7 +58,7 @@ export async function apiGet<T>(
       ...(noStore ? { cache: "no-store" } : {}),
       ...(nextConfig ? { next: nextConfig } : {}),
     });
-  } catch (cause) {
+  } catch {
     throw new ApiError(
       "network",
       `Netzwerkfehler beim Abruf von ${path}`,
