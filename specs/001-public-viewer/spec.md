@@ -294,6 +294,7 @@ werden Details, aber keine Tipps angezeigt.
 - **Profil-Adressierung**: Spielerprofile werden ausschließlich über den
   öffentlichen Identifier in der URL erreicht; es gibt keine Suche oder Anmeldung.
 - **Deployment-Umgebung**: Die Anwendung wird als öffentlich erreichbare Website
-  betrieben (Vercel) und benötigt keine nutzerbezogene Sitzungsverwaltung.
+  self-hosted auf einem VServer betrieben (Frontend `wm.xenoria.de`, Backend
+  `api.wm.xenoria.de`) und benötigt keine nutzerbezogene Sitzungsverwaltung.
 - **Endpoint-Details** (genaue URLs, Antwort-Schemata, Paginierung) werden in der
   Planungsphase anhand der Backend-Schnittstelle konkretisiert.

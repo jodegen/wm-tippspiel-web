@@ -96,15 +96,21 @@ ist gegen die Projektverfassung (`.specify/memory/constitution.md`) geprüft.
 - **Alternatives considered**: Ad-hoc-Fehlertexte pro Seite → inkonsistent;
   verworfen.
 
-## 8. Deployment (Vercel) & CORS
+## 8. Deployment (Self-hosted VServer) & CORS
 
-- **Decision**: Vercel-Standard-Build für Next.js. `NEXT_PUBLIC_API_BASE_URL` als
-  Vercel-Env-Var je Umgebung. Da `/live` clientseitig pollt, MUSS das Backend CORS
-  für den Site-Origin erlauben; serverseitige ISR-Fetches benötigen kein CORS.
-- **Rationale**: Erfüllt Deployment-Constraint; trennt Server- vs. Client-Aufrufe
-  bzgl. CORS sauber.
-- **Open item**: CORS-Konfiguration ist Backend-seitig sicherzustellen (außerhalb
-  dieses Repos) — als Annahme dokumentiert.
+- **Decision**: Self-Hosting auf einem VServer. Production-Build via `next build`,
+  Betrieb via `next start` (Node 20) als systemd-Dienst, davor ein nginx-Reverse-
+  Proxy. Frontend unter `wm.xenoria.de`, Backend-API unter `api.wm.xenoria.de`.
+  `NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de`. Da `/live` clientseitig
+  pollt und Frontend/API getrennte Origins sind, MUSS das Backend CORS für
+  `https://wm.xenoria.de` erlauben; serverseitige ISR-Fetches benötigen kein CORS.
+- **Rationale**: Entspricht der gewählten Infrastruktur (eigener VServer);
+  Next.js läuft unverändert per `next start`, kein Vercel-spezifischer Code.
+- **Alternatives considered**: Vercel (ursprüngliche Annahme) → verworfen zugunsten
+  des vorhandenen VServers. Statischer Export → nicht möglich wegen ISR/SSR und
+  dynamischer Routen.
+- **Open item**: CORS-Konfiguration und nginx-vHosts sind serverseitig
+  einzurichten; Artefakte siehe `DEPLOYMENT.md` und `deploy/`.
 
 ## Zusammenfassung offener Punkte (nicht blockierend)
 

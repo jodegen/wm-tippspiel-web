@@ -52,9 +52,11 @@ npm test             # Vitest (Unit/Component)
 6. **Responsiv (SC-006)**: alle Seiten bei ≤ 375 px ohne horizontales Scrollen.
 7. **Fehler/Leer (SC-007)**: Backend-URL ungültig setzen → ErrorState statt Absturz.
 
-## Deployment (Vercel)
+## Deployment (Self-hosted VServer)
 
-- `NEXT_PUBLIC_API_BASE_URL` als Vercel-Env-Var je Umgebung setzen.
-- Backend-CORS muss den Vercel-Origin für das `/live`-Polling erlauben.
-- Standard-Next.js-Build; keine serverseitigen Secrets nötig (rein öffentliche
-  Lese-Daten).
+- Build & Start: `npm ci && npm run build && npm run start` (Node 20), betrieben
+  als systemd-Dienst hinter nginx (siehe `DEPLOYMENT.md` und `deploy/`).
+- `NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de` setzen (Build-Zeit-Variable,
+  da `NEXT_PUBLIC_`-Prefix → in den Client gebündelt).
+- Backend-CORS muss `https://wm.xenoria.de` für das `/live`-Polling erlauben.
+- Keine serverseitigen Secrets nötig (rein öffentliche Lese-Daten).

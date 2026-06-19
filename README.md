@@ -11,7 +11,7 @@ Daten.
 - **Next.js 15** (App Router) · **React 19** · **TypeScript** (strict)
 - **Tailwind CSS** (Stil/Tokens am Steuerfertig-Projekt orientiert)
 - **Vitest** + React Testing Library
-- Deployment: **Vercel**
+- Deployment: **self-hosted** (VServer, nginx-Reverse-Proxy)
 
 ## Setup
 
@@ -61,10 +61,16 @@ Design-Dokumente: siehe [`specs/001-public-viewer/`](./specs/001-public-viewer/)
 (spec, plan, research, data-model, contracts, tasks). Projektprinzipien:
 [`.specify/memory/constitution.md`](./.specify/memory/constitution.md).
 
-## Deployment (Vercel)
+## Deployment (self-hosted, VServer)
 
-1. `NEXT_PUBLIC_API_BASE_URL` als Environment-Variable je Umgebung setzen.
-2. Das Backend muss **CORS** für den Vercel-Origin erlauben (die `/live`-Seite
+Frontend `wm.xenoria.de`, Backend-API `api.wm.xenoria.de` — siehe ausführlich
+[`DEPLOYMENT.md`](./DEPLOYMENT.md) und die Vorlagen unter [`deploy/`](./deploy/).
+
+1. `NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de` **zur Build-Zeit** setzen
+   (der `NEXT_PUBLIC_`-Prefix bündelt den Wert in den Client).
+2. `npm ci && npm run build && npm run start` (Node 20), betrieben als
+   systemd-Dienst (`deploy/wm-frontend.service`) hinter nginx
+   (`deploy/nginx.wm.conf.example`).
+3. Das Backend muss **CORS** für `https://wm.xenoria.de` erlauben (die `/live`-Seite
    pollt clientseitig; serverseitige ISR-Fetches benötigen kein CORS).
-3. Standard-Next.js-Build; keine serverseitigen Secrets erforderlich (rein
-   öffentliche Lese-Daten).
+4. Keine serverseitigen Secrets erforderlich (rein öffentliche Lese-Daten).

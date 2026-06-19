@@ -14,7 +14,8 @@ zentralen, nur lesenden API-Client (Basis-URL via `NEXT_PUBLIC_API_BASE_URL`).
 serverseitig mit ISR und moderater Revalidierung; `/live` ist eine Client-Component
 mit Polling (30–60 s, kein WebSocket). Anstoßzeiten werden zentral in
 Europe/Berlin formatiert. Responsives, sauberes UI im Stil des Steuerfertig-
-Projekts. Deployment auf Vercel.
+Projekts. Deployment self-hosted auf einem VServer (`next start` hinter nginx-Reverse-Proxy;
+Frontend `wm.xenoria.de`, Backend `api.wm.xenoria.de`).
 
 ## Technical Context
 
@@ -33,7 +34,8 @@ Next.js Data Cache / ISR.
 **optional und nicht Teil der v1-Tasks** (kann später für Kernflows wie
 Spielplan-Filter, Live-Polling, Empty/Error-States ergänzt werden).
 
-**Target Platform**: Vercel (Node Runtime), moderne Browser (Desktop + Mobil)
+**Target Platform**: Self-hosted VServer (Node 20 via `next start` hinter nginx),
+moderne Browser (Desktop + Mobil)
 
 **Project Type**: Web-Frontend (Single Next.js App, kein eigenes Backend)
 
@@ -42,7 +44,8 @@ Spielplan-Filter, Live-Polling, Empty/Error-States ergänzt werden).
 
 **Constraints**: Nur HTTP-`GET`; keine Auth/Tippabgabe/Wetten; keine sensiblen
 Daten; alle Zeiten in Europe/Berlin; responsiv ohne horizontales Scrollen ab
-≤ 375 px; CORS des Backends muss clientseitige Aufrufe (Polling) erlauben
+≤ 375 px; CORS des Backends muss clientseitige Aufrufe (Polling) vom Frontend-
+Origin `wm.xenoria.de` erlauben (Frontend und API sind getrennte Subdomains)
 
 **Scale/Scope**: 5 Routen, 1 Turnier; Rangliste bis ~mehrere hundert Teilnehmer;
 Spielplan ~64 Spiele; geringe gleichzeitige Last (öffentliche Lese-Site)
@@ -59,7 +62,7 @@ Spielplan ~64 Spiele; geringe gleichzeitige Last (öffentliche Lese-Site)
 | IV. Datensparsamkeit & Datenschutz | Nur öffentliche Backend-Felder; kein Logging personenbezogener Daten; keine Persistenz | ✅ PASS |
 | V. Stack- & Stilkonsistenz | Next.js + React + TypeScript; Struktur/Styling im Steuerfertig-Stil | ✅ PASS |
 | Zeitzonen (Europe/Berlin) | Zentrale Formatierungs-Utility erzwingt Europe/Berlin | ✅ PASS |
-| Responsiveness / Vercel | Responsives Layout; Vercel-kompatibler Next.js-Build | ✅ PASS |
+| Responsiveness / Deployment | Responsives Layout; Self-Hosting via `next start` hinter nginx; CORS backend-seitig | ✅ PASS |
 
 **Ergebnis**: Keine Verstöße. Complexity Tracking bleibt leer.
 

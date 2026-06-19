@@ -25,6 +25,14 @@ Templates reviewed for consistency:
   - Command-/Skill-Dateien .......................... ✅ generisch, keine veralteten Refs
 
 Deferred TODOs: keine. Ratifizierungsdatum auf Projekt-Setup-Datum (2026-06-19) gesetzt.
+
+AMENDMENT 2026-06-19 (1.0.0 → 1.1.0, MINOR):
+  - Technische Rahmenbedingungen → Deployment: Ziel von "Vercel" auf "self-hosted
+    VServer mit nginx-Reverse-Proxy (Frontend wm.xenoria.de, API api.wm.xenoria.de)"
+    geändert; CORS-Anforderung für den Frontend-Origin explizit aufgenommen.
+  - Begründung: materielle Änderung einer dokumentierten Rahmenbedingung ⇒ MINOR.
+  - Folge-Updates: plan.md, spec.md (Assumptions), research.md §8, quickstart.md,
+    README.md, neue Deployment-Artefakte (DEPLOYMENT.md, deploy/).
 -->
 
 # WM-Tippspiel Web Constitution
@@ -94,8 +102,11 @@ Wartbarkeit und sichert ein einheitliches Erscheinungsbild.
   angezeigt, unabhängig von der Zeitzone des Endgeräts. Zeitformatierung erfolgt zentral,
   damit die Darstellung einheitlich bleibt.
 - **Responsiveness**: Das UI ist responsiv und auf Mobil- wie Desktop-Viewports nutzbar.
-- **Deployment**: Auslieferung erfolgt auf Vercel. Konfiguration und Build müssen mit den
-  Vercel-Konventionen für Next.js kompatibel sein.
+- **Deployment**: Auslieferung erfolgt self-hosted auf einem VServer. Das Next.js-
+  Frontend läuft als Node-Prozess (`next start`, via systemd/Prozessmanager) hinter
+  einem nginx-Reverse-Proxy (Frontend unter `wm.xenoria.de`, Backend-API unter
+  `api.wm.xenoria.de`). Da Frontend und API verschiedene Origins sind, MUSS das
+  Backend CORS für den Frontend-Origin erlauben (clientseitiges `/live`-Polling).
 
 ## Entwicklungs- & Qualitäts-Workflow
 
@@ -122,4 +133,4 @@ Versionsanhebung gemäß Semantic Versioning:
 Alle Pull Requests und Reviews müssen die Einhaltung dieser Verfassung verifizieren.
 Abweichungen sind nur mit dokumentierter Begründung zulässig.
 
-**Version**: 1.0.0 | **Ratified**: 2026-06-19 | **Last Amended**: 2026-06-19
+**Version**: 1.1.0 | **Ratified**: 2026-06-19 | **Last Amended**: 2026-06-19
