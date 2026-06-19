@@ -68,8 +68,8 @@ Backend bereitgestellte OpenAPI 3.0.3. Maßgeblich für `lib/api/types.ts` und
 - [x] Live-Endpoint vorhanden (`/matches/live`).
 - [x] `kickoffUtc` ist UTC/ISO-8601.
 - [x] Tipp-Sichtbarkeit über `released` (Backend erzwingt Regel).
-- [ ] **CORS** für `https://wm.xenoria.de` am Live-Endpoint: **fehlt aktuell** →
-      Backend-seitig ergänzen ODER API per nginx unter dem Frontend-Origin
-      proxien (Same-Origin, kein CORS nötig). Siehe `DEPLOYMENT.md`.
+- [x] **CORS** für `https://wm.xenoria.de` am Live-Endpoint: **verifiziert OK**
+      (2026-06-19) — Backend sendet `Access-Control-Allow-Origin: https://wm.xenoria.de`
+      + `Vary: Origin`.
 - [ ] **`publicId` in `LeaderboardRow`** ergänzen, um FR-006 (Profil-Verlinkung)
       zu erfüllen — offene Produktentscheidung.
