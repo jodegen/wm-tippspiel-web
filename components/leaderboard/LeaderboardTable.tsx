@@ -1,9 +1,13 @@
-import Link from "next/link";
-import type { LeaderboardEntry } from "@/lib/api/types";
+import type { LeaderboardRow } from "@/lib/api/types";
 import { RankDeltaIndicator } from "@/components/leaderboard/RankDeltaIndicator";
 
-/** Vollständige, responsive Ranglisten-Tabelle; jede Zeile verlinkt auf das Profil. */
-export function LeaderboardTable({ entries }: { entries: LeaderboardEntry[] }) {
+/**
+ * Vollständige, responsive Ranglisten-Tabelle.
+ *
+ * Hinweis: Die öffentliche Leaderboard-API liefert keinen `publicId`, daher ist
+ * (noch) keine Verlinkung zum Spielerprofil möglich (siehe Spec-Hinweis FR-006).
+ */
+export function LeaderboardTable({ entries }: { entries: LeaderboardRow[] }) {
   return (
     <div className="overflow-x-auto rounded-lg border border-surface-border">
       <table className="w-full min-w-[32rem] border-collapse text-sm">
@@ -19,22 +23,17 @@ export function LeaderboardTable({ entries }: { entries: LeaderboardEntry[] }) {
         </thead>
         <tbody className="divide-y divide-surface-border">
           {entries.map((entry) => (
-            <tr key={entry.playerId} className="hover:bg-surface-subtle">
+            <tr key={entry.rank} className="hover:bg-surface-subtle">
               <td className="px-3 py-2 text-right font-semibold tabular-nums text-slate-900">
                 {entry.rank}
               </td>
-              <td className="px-3 py-2">
-                <Link
-                  href={`/profil/${encodeURIComponent(entry.playerId)}`}
-                  className="font-medium text-brand hover:underline"
-                >
-                  {entry.displayName}
-                </Link>
+              <td className="px-3 py-2 font-medium text-slate-800">
+                {entry.displayName}
               </td>
               <td className="px-3 py-2 text-right tabular-nums">{entry.points}</td>
               <td className="px-3 py-2 text-right tabular-nums">{entry.exactHits}</td>
               <td className="px-3 py-2 text-right">
-                <RankDeltaIndicator entry={entry} />
+                <RankDeltaIndicator rankChange={entry.rankChange} />
               </td>
             </tr>
           ))}

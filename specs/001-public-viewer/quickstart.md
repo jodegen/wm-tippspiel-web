@@ -56,7 +56,7 @@ npm test             # Vitest (Unit/Component)
 
 - Build & Start: `npm ci && npm run build && npm run start` (Node 20), betrieben
   als systemd-Dienst hinter nginx (siehe `DEPLOYMENT.md` und `deploy/`).
-- `NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de` setzen (Build-Zeit-Variable,
+- `NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public` setzen (Build-Zeit-Variable,
   da `NEXT_PUBLIC_`-Prefix → in den Client gebündelt).
 - Backend-CORS muss `https://wm.xenoria.de` für das `/live`-Polling erlauben.
 - Keine serverseitigen Secrets nötig (rein öffentliche Lese-Daten).

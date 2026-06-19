@@ -1,11 +1,11 @@
 import { apiGet } from "@/lib/api/client";
 import { endpoints } from "@/lib/api/endpoints";
 import { OVERVIEW_REVALIDATE } from "@/lib/api/matches";
-import type { LeaderboardEntry } from "@/lib/api/types";
+import type { LeaderboardRow } from "@/lib/api/types";
 
-/** Vollständige Rangliste (alle Teilnehmer, kein Top-N) — ISR. */
-export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
-  return apiGet<LeaderboardEntry[]>(endpoints.leaderboard(), {
+/** Vollständige Rangliste (alle Teilnehmer, nach Rang sortiert) — ISR. */
+export async function getLeaderboard(): Promise<LeaderboardRow[]> {
+  return apiGet<LeaderboardRow[]>(endpoints.leaderboard(), {
     revalidate: OVERVIEW_REVALIDATE,
   });
 }

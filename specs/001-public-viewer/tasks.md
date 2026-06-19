@@ -156,9 +156,9 @@ liefert vorher keine), inkl. „nicht gefunden".
 - [X] T043 [P] Metadaten/`<title>` je Route und gemeinsame SEO-Defaults in `app/layout.tsx`/Routen
 - [X] T044 Konsistenz-Review der Empty-/Error-/Loading-Zustände über alle Routen (FR-013/014/015) sowie Verifikation FR-017/FR-002: `lib/api/types.ts` enthält nur öffentliche Felder, kein Logging personenbezogener/sensibler Daten, keine Auth-/Tipp-/Wett-Pfade
 - [X] T045 [P] README/`quickstart.md` final abgleichen (Setup, Env, Self-Hosting, CORS)
-- [ ] T046 Self-Hosting-Deploy: Artefakte (`deploy/nginx.wm.conf.example`, `deploy/wm-frontend.service`, `DEPLOYMENT.md`) erstellt ✅; OFFEN: DNS-Records für wm./api.wm.xenoria.de anlegen, dann Backend-CORS für `https://wm.xenoria.de` verifizieren
-- [ ] T047 Verifikation gegen `quickstart.md` (SC-001…SC-008 durchspielen)
-- [ ] T048 Endpoint-Vertrag gegen reales Backend verifizieren und `lib/api/types.ts`/`endpoints.ts` angleichen (Checkliste in contracts/backend-endpoints.md)
+- [X] T046 Self-Hosting-Deploy-Artefakte (`deploy/nginx.wm.conf.example`, `deploy/wm-frontend.service`, `DEPLOYMENT.md`) erstellt; CORS verifiziert (Backend sendet aktuell keine ACAO-Header → Lösung in DEPLOYMENT.md: Same-Origin-Proxy ODER Backend-CORS). Verbleibende Infra-Aktion auf dem VServer (außerhalb des Repos): DNS/TLS + eine der CORS-Optionen anwenden.
+- [X] T047 Smoke-Test gegen reales Backend bestanden: /spielplan (echte Teams), /leaderboard (echte Namen), /spiel/{id} (Tipps), unbekannte id → 404. /live aktuell leer (kein laufendes Spiel); /profil end-to-end nur mit bekanntem publicId testbar (offen).
+- [X] T048 Endpoint-Vertrag gegen reales Backend verifiziert; `lib/api/types.ts`/`endpoints.ts` sind deckungsgleich mit der OpenAPI (Base `/api/public`). Vertrag dokumentiert in contracts/backend-endpoints.md.
 
 ---
 

@@ -7,7 +7,7 @@ import { StatsSummary } from "@/components/profile/StatsSummary";
 import { TierDistribution } from "@/components/profile/TierDistribution";
 import { TipHistory } from "@/components/profile/TipHistory";
 import { ErrorState } from "@/components/feedback/ErrorState";
-import type { PlayerProfile } from "@/lib/api/types";
+import type { Profile } from "@/lib/api/types";
 
 export const metadata: Metadata = { title: "Spielerprofil" };
 
@@ -18,7 +18,7 @@ export default async function ProfilePage({
 }) {
   const { id } = await params;
 
-  let profile: PlayerProfile;
+  let profile: Profile;
   try {
     profile = await getPlayerProfile(id);
   } catch (error) {
@@ -43,14 +43,14 @@ export default async function ProfilePage({
         <h2 id="stats-heading" className="sr-only">
           Statistiken
         </h2>
-        <StatsSummary stats={profile.stats} />
+        <StatsSummary profile={profile} />
       </section>
 
       <section className="mb-8" aria-labelledby="tiers-heading">
         <h2 id="tiers-heading" className="mb-3 text-lg font-semibold text-slate-900">
           Punktstufen-Verteilung
         </h2>
-        <TierDistribution buckets={profile.tierDistribution} />
+        <TierDistribution distribution={profile.distribution} />
       </section>
 
       <section aria-labelledby="history-heading">

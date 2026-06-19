@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import type { Match } from "@/lib/api/types";
+import type { LiveMatch } from "@/lib/api/types";
 import { getLiveMatches } from "@/lib/api/live";
 import { usePolling } from "@/hooks/usePolling";
 import { MatchCard } from "@/components/match/MatchCard";
@@ -17,7 +17,7 @@ export function LiveMatches() {
     (signal: AbortSignal) => getLiveMatches({ signal }),
     [],
   );
-  const { data, error, isLoading } = usePolling<Match[]>(
+  const { data, error, isLoading } = usePolling<LiveMatch[]>(
     fetcher,
     POLL_INTERVAL_MS,
   );
@@ -46,7 +46,7 @@ export function LiveMatches() {
   return (
     <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
       {matches.map((match) => (
-        <MatchCard key={match.id} match={match} />
+        <MatchCard key={match.matchId} match={match} />
       ))}
     </div>
   );

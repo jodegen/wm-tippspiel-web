@@ -1,34 +1,17 @@
-import type { LeaderboardEntry, RankDirection } from "@/lib/api/types";
-
-function resolveDirection(entry: LeaderboardEntry): RankDirection {
-  if (entry.rankDirection) return entry.rankDirection;
-  if (entry.rankDelta === undefined || entry.rankDelta === 0) return "same";
-  return entry.rankDelta > 0 ? "up" : "down";
-}
-
-const META: Record<RankDirection, { symbol: string; className: string; label: string }> = {
-  up: { symbol: "▲", className: "text-status-finished", label: "aufgestiegen" },
-  down: { symbol: "▼", className: "text-status-live", label: "abgestiegen" },
-  same: { symbol: "–", className: "text-slate-400", label: "unverändert" },
-};
-
-/** Visualisiert die Rang-Veränderung ggü. dem vorherigen Spieltag. */
-export function RankDeltaIndicator({ entry }: { entry: LeaderboardEntry }) {
-  const direction = resolveDirection(entry);
-  const meta = META[direction];
-  const magnitude =
-    entry.rankDelta !== undefined && entry.rankDelta !== 0
-      ? Math.abs(entry.rankDelta)
-      : null;
+/**
+ * Zeigt die vom Backend gelieferte Rang-Veränderung ("NEU" / "↑n" / "↓n" / "–").
+ * Bezug: vorheriger Spieltag.
+ */
+export function RankDeltaIndicator({ rankChange }: { rankChange: string }) {
+  const trimmed = rankChange.trim();
+  let className = "text-slate-400";
+  if (trimmed.startsWith("↑")) className = "text-status-finished";
+  else if (trimmed.startsWith("↓")) className = "text-status-live";
+  else if (trimmed.toUpperCase() === "NEU") className = "text-brand";
 
   return (
-    <span
-      className={`inline-flex items-center gap-1 tabular-nums ${meta.className}`}
-      title={`Rang ${meta.label}`}
-    >
-      <span aria-hidden>{meta.symbol}</span>
-      {magnitude !== null ? <span className="text-xs">{magnitude}</span> : null}
-      <span className="sr-only">Rang {meta.label}</span>
+    <span className={`inline-flex items-center tabular-nums ${className}`}>
+      {trimmed || "–"}
     </span>
   );
 }

@@ -18,7 +18,7 @@ beim Build setzen:
 ```bash
 cd /var/www/wm-tippspiel-web
 npm ci
-NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de npm run build
+NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public npm run build
 ```
 
 ## 2. Prozess via systemd
@@ -41,11 +41,26 @@ sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d wm.xenoria.de
 ```
 
-## 4. CORS am Backend (erforderlich für /live)
+## 4. CORS / Same-Origin (erforderlich für /live)
 
 Das Frontend pollt `/matches/live` **clientseitig** vom Origin
-`https://wm.xenoria.de`. Da `api.wm.xenoria.de` ein anderer Origin ist, muss die
-API mindestens senden:
+`https://wm.xenoria.de`. Verifiziert am 2026-06-19: Das Backend sendet **aktuell
+KEINE** `Access-Control-Allow-Origin`-Header → das Polling würde im Browser
+blockiert. Zwei Lösungswege (einer genügt):
+
+**Option A (empfohlen): API per nginx unter dem Frontend-Origin proxien** — dann
+ist `/live` same-origin und CORS entfällt komplett. Im Frontend-vHost
+(`wm.xenoria.de`) ergänzen und `NEXT_PUBLIC_API_BASE_URL=https://wm.xenoria.de/api/public`
+setzen:
+
+```nginx
+location /api/public/ {
+    proxy_pass https://api.wm.xenoria.de/api/public/;
+    proxy_set_header Host api.wm.xenoria.de;
+}
+```
+
+**Option B: CORS am Backend** — für die öffentlichen GET-Endpoints senden:
 
 ```
 Access-Control-Allow-Origin: https://wm.xenoria.de
@@ -54,7 +69,7 @@ Vary: Origin
 ```
 
 (Serverseitige ISR-Fetches von Spielplan/Leaderboard/Profil/Detail laufen
-Server-zu-Server und benötigen **kein** CORS.)
+Server-zu-Server und benötigen **kein** CORS — nur das clientseitige `/live`.)
 
 ## 5. Verifikation (nach DNS/TLS/CORS)
 
@@ -68,6 +83,6 @@ Server-zu-Server und benötigen **kein** CORS.)
 ```bash
 git pull
 npm ci
-NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de npm run build
+NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public npm run build
 sudo systemctl restart wm-frontend
 ```

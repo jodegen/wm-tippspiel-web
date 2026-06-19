@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { getMatches } from "@/lib/api/matches";
+import { getSchedule } from "@/lib/api/matches";
 import {
   deriveMatchdayOptions,
   derivePhaseOptions,
@@ -32,7 +32,7 @@ export default async function SpielplanPage({
 
   let allMatches;
   try {
-    allMatches = await getMatches();
+    allMatches = await getSchedule();
   } catch {
     return (
       <Container>
@@ -72,7 +72,7 @@ export default async function SpielplanPage({
       ) : (
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {matches.map((match) => (
-            <MatchCard key={match.id} match={match} />
+            <MatchCard key={match.matchId} match={match} />
           ))}
         </div>
       )}

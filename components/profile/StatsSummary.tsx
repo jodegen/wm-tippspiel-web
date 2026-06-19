@@ -1,4 +1,4 @@
-import type { PlayerStats } from "@/lib/api/types";
+import type { Profile } from "@/lib/api/types";
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
@@ -12,15 +12,18 @@ function Stat({ label, value }: { label: string; value: string | number }) {
 }
 
 /** Aggregierte Kennzahlen eines Profils (vom Backend geliefert). */
-export function StatsSummary({ stats }: { stats: PlayerStats }) {
+export function StatsSummary({ profile }: { profile: Profile }) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-      <Stat label="Punkte" value={stats.totalPoints} />
-      <Stat label="Exakte Treffer" value={stats.exactHits} />
-      <Stat label="Tipps" value={stats.tipCount} />
-      {stats.averagePoints !== undefined ? (
-        <Stat label="Ø Punkte" value={stats.averagePoints} />
-      ) : null}
+      <Stat label="Punkte" value={profile.points} />
+      <Stat label="Exakte Treffer" value={profile.exactHits} />
+      <Stat label="Gewertete Tipps" value={profile.evaluatedTips} />
+      <Stat
+        label="Trefferquote"
+        value={
+          profile.hitRatePercent != null ? `${profile.hitRatePercent} %` : "–"
+        }
+      />
     </div>
   );
 }

@@ -1,10 +1,17 @@
-import type { Match } from "@/lib/api/types";
+interface ScoreDisplayProps {
+  homeScore?: number | null;
+  awayScore?: number | null;
+}
 
-/** Zeigt das Ergebnis bzw. "–:–" bei noch ausstehendem Spiel. */
-export function ScoreDisplay({ match }: { match: Match }) {
-  const { result, status } = match;
+/** Zeigt das Ergebnis bzw. "–:–", solange kein Stand vorliegt. */
+export function ScoreDisplay({ homeScore, awayScore }: ScoreDisplayProps) {
+  const hasScore =
+    homeScore !== null &&
+    homeScore !== undefined &&
+    awayScore !== null &&
+    awayScore !== undefined;
 
-  if (!result) {
+  if (!hasScore) {
     return (
       <span className="tabular-nums text-slate-400" aria-label="noch kein Ergebnis">
         –&nbsp;:&nbsp;–
@@ -14,12 +21,7 @@ export function ScoreDisplay({ match }: { match: Match }) {
 
   return (
     <span className="font-semibold tabular-nums text-slate-900">
-      {result.homeGoals}&nbsp;:&nbsp;{result.awayGoals}
-      {status === "live" && result.minute !== undefined ? (
-        <span className="ml-2 text-xs font-medium text-status-live">
-          {result.minute}&prime;
-        </span>
-      ) : null}
+      {homeScore}&nbsp;:&nbsp;{awayScore}
     </span>
   );
 }

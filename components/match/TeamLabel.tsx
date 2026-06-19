@@ -1,23 +1,16 @@
-import type { Team } from "@/lib/api/types";
-
-/** Einheitliche Team-Darstellung (optionale Flagge/Code werden neutral behandelt). */
+/** Einheitliche Team-Darstellung (Backend liefert den Teamnamen als String). */
 export function TeamLabel({
-  team,
+  name,
   align = "left",
 }: {
-  team: Team;
+  name: string;
   align?: "left" | "right";
 }) {
   return (
     <span
-      className={`flex items-center gap-2 ${align === "right" ? "flex-row-reverse text-right" : ""}`}
+      className={`font-medium text-slate-900 ${align === "right" ? "text-right" : ""}`}
     >
-      {team.flag ? (
-        <span aria-hidden className="text-lg leading-none">
-          {team.flag}
-        </span>
-      ) : null}
-      <span className="font-medium text-slate-900">{team.name}</span>
+      {name}
     </span>
   );
 }

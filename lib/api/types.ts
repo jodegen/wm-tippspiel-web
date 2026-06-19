@@ -1,94 +1,97 @@
 /**
  * Frontend-Sicht der öffentlichen Backend-Daten (read-only).
+ * Exakt abgeleitet aus der OpenAPI der WM-Tippspiel-Public-API (Base: /api/public).
  * Es werden ausschließlich öffentliche, unbedenkliche Felder verarbeitet
- * (Verfassungsprinzip IV). Optionale Felder werden als Leerzustand behandelt.
+ * (keine Discord-ID, E-Mail, Tokens). Zeitpunkte sind UTC (ISO-8601).
  */
 
-export type MatchStatus = "scheduled" | "live" | "finished";
+export type MatchStatus =
+  | "SCHEDULED"
+  | "IN_PLAY"
+  | "FINISHED"
+  | "POSTPONED"
+  | "CANCELLED";
 
-export type KnockoutRound =
-  | "round-of-16"
-  | "quarter"
-  | "semi"
-  | "third-place"
-  | "final";
-
-export type Phase =
-  | { type: "group"; groupName: string }
-  | { type: "knockout"; round: KnockoutRound };
-
-export type RankDirection = "up" | "down" | "same";
-
-export interface Team {
-  name: string;
-  code?: string;
-  flag?: string;
-}
-
-export interface MatchResult {
-  homeGoals: number;
-  awayGoals: number;
-  minute?: number;
-}
-
-export interface Match {
-  id: string;
-  homeTeam: Team;
-  awayTeam: Team;
-  /** Anstoßzeit als ISO-8601 (UTC). Anzeige stets in Europe/Berlin. */
-  kickoff: string;
-  phase: Phase;
-  matchday: number | string;
+/** Gemeinsame Anzeigefelder von Spielplan- und Live-Spielen. */
+export interface MatchSummary {
+  matchId: number;
+  home: string;
+  away: string;
+  kickoffUtc: string;
   status: MatchStatus;
-  tvChannel?: string;
-  odds?: string | number;
-  result?: MatchResult;
+  homeScore?: number | null;
+  awayScore?: number | null;
+  stage?: string;
+  group?: string | null;
+  matchday?: number | null;
+  tvChannel?: string | null;
+  oddsHome?: number | null;
+  oddsDraw?: number | null;
+  oddsAway?: number | null;
 }
 
-export interface LeaderboardEntry {
-  playerId: string;
-  displayName: string;
+/** Vollständiges Spiel aus /schedule. */
+export interface Match extends MatchSummary {
+  stage: string;
+}
+
+/** Reduziertes Live-Spiel aus /matches/live (Status immer IN_PLAY). */
+export interface LiveMatch extends MatchSummary {
+  status: "IN_PLAY";
+}
+
+export interface LeaderboardRow {
   rank: number;
+  displayName: string;
   points: number;
   exactHits: number;
-  /** Rang-Veränderung ggü. dem vorherigen Spieltag. */
-  rankDelta?: number;
-  rankDirection?: RankDirection;
+  /** Vorgefertigte Anzeige: "NEU" / "↑n" / "↓n" / "–". */
+  rankChange: string;
 }
 
-export interface PlayerStats {
-  totalPoints: number;
-  exactHits: number;
-  tipCount: number;
-  averagePoints?: number;
-}
-
-export interface TierBucket {
-  tier: string;
-  count: number;
-  points?: number;
-}
-
-export interface TipEntry {
-  matchId: string;
-  predictedHome: number;
-  predictedAway: number;
-  pointsAwarded?: number;
-  tier?: string;
-}
-
-export interface PlayerProfile {
-  playerId: string;
+export interface PublicTip {
   displayName: string;
-  /** Aggregate werden vom Backend fertig geliefert (Frontend rechnet nicht). */
-  stats: PlayerStats;
-  tierDistribution: TierBucket[];
-  bestTip?: TipEntry;
-  worstTip?: TipEntry;
-  history: TipEntry[];
+  tipHome: number;
+  tipAway: number;
+  /** Nur bei bereits gewertetem Spiel. */
+  points?: number | null;
 }
 
-/** Spieldetail: Match plus abgegebene Tipps (nur nach Anpfiff vom Backend geliefert). */
-export interface MatchDetail extends Match {
-  tips?: TipEntry[];
+export interface MatchTips {
+  matchId: number;
+  /** true nur, wenn now() >= kickoff UND revealed. Sonst sind tips leer. */
+  released: boolean;
+  tips: PublicTip[];
+}
+
+/** Feste Punktstufen-Verteilung (4 = exakt, 3 = Differenz, 2 = Tendenz, 0 = daneben). */
+export interface PointDistribution {
+  p4: number;
+  p3: number;
+  p2: number;
+  p0: number;
+}
+
+export interface ProfileTip {
+  home: string;
+  away: string;
+  tipHome: number;
+  tipAway: number;
+  resultHome?: number | null;
+  resultAway?: number | null;
+  points: number;
+}
+
+export interface Profile {
+  publicId: string;
+  displayName: string;
+  rank?: number | null;
+  points: number;
+  exactHits: number;
+  evaluatedTips: number;
+  hitRatePercent?: number | null;
+  distribution: PointDistribution;
+  bestTip?: ProfileTip | null;
+  worstTip?: ProfileTip | null;
+  history: ProfileTip[];
 }
