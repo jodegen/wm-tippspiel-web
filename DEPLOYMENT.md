@@ -10,16 +10,19 @@ Frontend `wm.xenoria.de` (Next.js, `next start`) hinter nginx; Backend-API unter
   den VServer zeigen. (Stand der Einrichtung: aktuell lösen beide Hostnamen noch
   nicht auf — `NXDOMAIN`. Records anlegen, bevor TLS/CORS getestet werden kann.)
 
-## 1. Build (mit Build-Zeit-Env)
+## 1. Build
 
-`NEXT_PUBLIC_API_BASE_URL` wird zur **Build-Zeit** in den Client gebündelt — daher
-beim Build setzen:
+Die Backend-URL steht fest in der eingecheckten `.env.production` und wird von
+`next build`/`next start` automatisch geladen — **nichts extra setzen**:
 
 ```bash
 cd /var/www/wm-tippspiel-web
 npm ci
-NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public npm run build
+npm run build
 ```
+
+(Nur falls du gegen ein anderes Backend bauen willst, einmalig überschreiben:
+`NEXT_PUBLIC_API_BASE_URL=https://… npm run build`.)
 
 ## 2. Prozess via systemd
 
@@ -83,6 +86,6 @@ Server-zu-Server und benötigen **kein** CORS — nur das clientseitige `/live`.
 ```bash
 git pull
 npm ci
-NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public npm run build
+npm run build
 sudo systemctl restart wm-frontend
 ```

@@ -66,8 +66,8 @@ Design-Dokumente: siehe [`specs/001-public-viewer/`](./specs/001-public-viewer/)
 Frontend `wm.xenoria.de`, Backend-API `api.wm.xenoria.de` — siehe ausführlich
 [`DEPLOYMENT.md`](./DEPLOYMENT.md) und die Vorlagen unter [`deploy/`](./deploy/).
 
-1. `NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public` **zur Build-Zeit** setzen
-   (der `NEXT_PUBLIC_`-Prefix bündelt den Wert in den Client).
+1. Die Backend-URL steht in der eingecheckten `.env.production` (wird von
+   `next build`/`next start` automatisch geladen — kein Setzen je Befehl nötig).
 2. `npm ci && npm run build && npm run start` (Node 20), betrieben als
    systemd-Dienst (`deploy/wm-frontend.service`) hinter nginx
    (`deploy/nginx.wm.conf.example`).

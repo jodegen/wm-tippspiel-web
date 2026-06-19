@@ -2,9 +2,8 @@
 # Ablage: /etc/systemd/system/wm-frontend.service
 # Danach: systemctl daemon-reload && systemctl enable --now wm-frontend
 #
-# HINWEIS: NEXT_PUBLIC_API_BASE_URL ist eine BUILD-ZEIT-Variable (wird in den
-# Client gebündelt). Sie muss beim `npm run build` gesetzt sein; der hier
-# gesetzte Wert dient serverseitigen Fetches/Konsistenz.
+# NEXT_PUBLIC_API_BASE_URL muss NICHT hier gesetzt werden — die eingecheckte
+# .env.production liefert sie für Build und Laufzeit automatisch.
 
 [Unit]
 Description=WM-Tippspiel Frontend (Next.js)
@@ -15,7 +14,6 @@ Type=simple
 WorkingDirectory=/var/www/wm-tippspiel-web
 Environment=NODE_ENV=production
 Environment=PORT=3000
-Environment=NEXT_PUBLIC_API_BASE_URL=https://api.wm.xenoria.de/api/public
 ExecStart=/usr/bin/npm run start
 Restart=on-failure
 RestartSec=5
