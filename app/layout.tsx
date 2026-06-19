@@ -16,8 +16,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="de">
       <body className="min-h-full font-sans antialiased">
+        <a href="#main" className="skip-link">
+          Zum Inhalt springen
+        </a>
         <Header />
-        <main>{children}</main>
+        <main id="main">{children}</main>
       </body>
     </html>
   );

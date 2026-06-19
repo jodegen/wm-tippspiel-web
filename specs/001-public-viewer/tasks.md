@@ -151,11 +151,11 @@ liefert vorher keine), inkl. „nicht gefunden".
 
 **Purpose**: Verbesserungen über mehrere Stories hinweg
 
-- [ ] T041 [P] Responsives Verhalten aller Seiten bei ≤ 375 px prüfen/feinschleifen (kein horizontales Scrollen) — SC-006
-- [ ] T042 [P] Accessibility-Pass (semantische Tabellen/Listen, Fokus, Kontrast) über alle Seiten
+- [X] T041 [P] Responsives Verhalten aller Seiten bei ≤ 375 px prüfen/feinschleifen (kein horizontales Scrollen) — SC-006
+- [X] T042 [P] Accessibility-Pass (semantische Tabellen/Listen, Fokus, Kontrast) über alle Seiten
 - [X] T043 [P] Metadaten/`<title>` je Route und gemeinsame SEO-Defaults in `app/layout.tsx`/Routen
-- [ ] T044 Konsistenz-Review der Empty-/Error-/Loading-Zustände über alle Routen (FR-013/014/015) sowie Verifikation FR-017/FR-002: `lib/api/types.ts` enthält nur öffentliche Felder, kein Logging personenbezogener/sensibler Daten, keine Auth-/Tipp-/Wett-Pfade
-- [ ] T045 [P] README/`quickstart.md` final abgleichen (Setup, Env, Vercel, CORS)
+- [X] T044 Konsistenz-Review der Empty-/Error-/Loading-Zustände über alle Routen (FR-013/014/015) sowie Verifikation FR-017/FR-002: `lib/api/types.ts` enthält nur öffentliche Felder, kein Logging personenbezogener/sensibler Daten, keine Auth-/Tipp-/Wett-Pfade
+- [X] T045 [P] README/`quickstart.md` final abgleichen (Setup, Env, Vercel, CORS)
 - [ ] T046 Vercel-Deploy-Konfiguration + `NEXT_PUBLIC_API_BASE_URL` je Umgebung; Backend-CORS für Polling-Origin verifizieren
 - [ ] T047 Verifikation gegen `quickstart.md` (SC-001…SC-008 durchspielen)
 - [ ] T048 Endpoint-Vertrag gegen reales Backend verifizieren und `lib/api/types.ts`/`endpoints.ts` angleichen (Checkliste in contracts/backend-endpoints.md)

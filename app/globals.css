@@ -15,4 +15,30 @@ body {
 body {
   background-color: theme("colors.surface.subtle");
   color: theme("colors.slate.800");
+  /* Schutz gegen horizontales Scrollen auf schmalen Viewports (SC-006). */
+  overflow-x: hidden;
+}
+
+/* Einheitlicher, gut sichtbarer Fokusring für Tastaturnutzer (A11y). */
+:focus-visible {
+  outline: 2px solid theme("colors.brand.DEFAULT");
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Sichtbarer Skip-Link beim Fokussieren. */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -3rem;
+  z-index: 50;
+  border-radius: 0.375rem;
+  background-color: theme("colors.brand.DEFAULT");
+  padding: 0.5rem 0.75rem;
+  color: theme("colors.brand.fg");
+  transition: top 0.15s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 0.5rem;
 }
