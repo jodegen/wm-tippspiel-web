@@ -153,7 +153,7 @@ liefert vorher keine), inkl. „nicht gefunden".
 
 - [ ] T041 [P] Responsives Verhalten aller Seiten bei ≤ 375 px prüfen/feinschleifen (kein horizontales Scrollen) — SC-006
 - [ ] T042 [P] Accessibility-Pass (semantische Tabellen/Listen, Fokus, Kontrast) über alle Seiten
-- [ ] T043 [P] Metadaten/`<title>` je Route und gemeinsame SEO-Defaults in `app/layout.tsx`/Routen
+- [X] T043 [P] Metadaten/`<title>` je Route und gemeinsame SEO-Defaults in `app/layout.tsx`/Routen
 - [ ] T044 Konsistenz-Review der Empty-/Error-/Loading-Zustände über alle Routen (FR-013/014/015) sowie Verifikation FR-017/FR-002: `lib/api/types.ts` enthält nur öffentliche Felder, kein Logging personenbezogener/sensibler Daten, keine Auth-/Tipp-/Wett-Pfade
 - [ ] T045 [P] README/`quickstart.md` final abgleichen (Setup, Env, Vercel, CORS)
 - [ ] T046 Vercel-Deploy-Konfiguration + `NEXT_PUBLIC_API_BASE_URL` je Umgebung; Backend-CORS für Polling-Origin verifizieren
