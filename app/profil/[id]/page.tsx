@@ -7,6 +7,8 @@ import { StatsSummary } from "@/components/profile/StatsSummary";
 import { TierDistribution } from "@/components/profile/TierDistribution";
 import { TipHistory } from "@/components/profile/TipHistory";
 import { ErrorState } from "@/components/feedback/ErrorState";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import type { Profile } from "@/lib/api/types";
 
 export const metadata: Metadata = { title: "Spielerprofil" };
@@ -34,10 +36,18 @@ export default async function ProfilePage({
 
   return (
     <Container>
-      <h1 className="mb-1 text-2xl font-bold">
-        {profile.displayName}
-      </h1>
-      <p className="mb-6 text-sm text-muted-foreground">Spielerprofil</p>
+      <div className="mb-6 flex items-center gap-4">
+        <Avatar name={profile.displayName} className="h-14 w-14 text-lg" />
+        <div className="min-w-0">
+          <h1 className="truncate text-2xl font-bold">{profile.displayName}</h1>
+          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Spielerprofil</span>
+            {profile.rank != null ? (
+              <Badge>Rang {profile.rank}</Badge>
+            ) : null}
+          </div>
+        </div>
+      </div>
 
       <section className="mb-8" aria-labelledby="stats-heading">
         <h2 id="stats-heading" className="sr-only">
