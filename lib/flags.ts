@@ -16,16 +16,18 @@ const NAME_TO_CODE: Record<string, string> = {
   austria: "at", ukraine: "ua", sweden: "se", norway: "no", "czechia": "cz",
   "czech republic": "cz", turkey: "tr", "türkiye": "tr", greece: "gr",
   romania: "ro", hungary: "hu", "republic of ireland": "ie", ireland: "ie",
-  "northern ireland": "gb", "bosnia and herzegovina": "ba", slovenia: "si",
+  "northern ireland": "gb", "bosnia and herzegovina": "ba", "bosnia-herzegovina": "ba", slovenia: "si",
   slovakia: "sk", iceland: "is", finland: "fi", albania: "al", "north macedonia": "mk",
   // CONCACAF
   "united states": "us", usa: "us", mexico: "mx", canada: "ca", "costa rica": "cr",
   panama: "pa", jamaica: "jm", honduras: "hn", "el salvador": "sv", "trinidad and tobago": "tt",
+  haiti: "ht", curacao: "cw", "curaçao": "cw",
   // CAF
   morocco: "ma", senegal: "sn", tunisia: "tn", "south africa": "za", ghana: "gh",
   cameroon: "cm", nigeria: "ng", algeria: "dz", egypt: "eg", "ivory coast": "ci",
   "côte d'ivoire": "ci", mali: "ml", "cape verde": "cv", "cabo verde": "cv",
-  "dr congo": "cd", "democratic republic of the congo": "cd",
+  "cape verde islands": "cv", "dr congo": "cd", "congo dr": "cd",
+  "democratic republic of the congo": "cd",
   // AFC
   japan: "jp", "south korea": "kr", "korea republic": "kr", "saudi arabia": "sa",
   iran: "ir", "ir iran": "ir", australia: "au", qatar: "qa", iraq: "iq",
