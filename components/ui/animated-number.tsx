@@ -6,11 +6,14 @@ import { useEffect, useRef, useState } from "react";
 export function AnimatedNumber({
   value,
   durationMs = 500,
+  delayMs = 0,
   startFrom,
   className,
 }: {
   value: number;
   durationMs?: number;
+  /** Verzögerung vor dem Start (z. B. nach einer Einblend-Animation). */
+  delayMs?: number;
   /** Startwert für eine Animation beim Mounten (z. B. 0 → Endwert). */
   startFrom?: number;
   className?: string;
@@ -33,9 +36,15 @@ export function AnimatedNumber({
       if (p < 1) raf = requestAnimationFrame(step);
       else fromRef.current = to;
     };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [value, durationMs]);
+    const timeout = setTimeout(() => {
+      raf = requestAnimationFrame(step);
+    }, delayMs);
+
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(raf);
+    };
+  }, [value, durationMs, delayMs]);
 
   return <span className={className}>{display}</span>;
 }

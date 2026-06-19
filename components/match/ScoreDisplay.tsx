@@ -8,6 +8,10 @@ interface ScoreDisplayProps {
   animate?: boolean;
   /** Beim Laden von 0 auf den Endstand hochzählen. */
   countUp?: boolean;
+  /** Dauer der Count-up-Animation (ms). */
+  durationMs?: number;
+  /** Verzögerung vor dem Count-up (ms). */
+  delayMs?: number;
   className?: string;
 }
 
@@ -17,6 +21,8 @@ export function ScoreDisplay({
   awayScore,
   animate = false,
   countUp = false,
+  durationMs,
+  delayMs,
   className,
 }: ScoreDisplayProps) {
   const hasScore =
@@ -41,9 +47,27 @@ export function ScoreDisplay({
 
   return (
     <span className={cn("font-semibold tabular-nums", className)}>
-      {useAnim ? <AnimatedNumber value={homeScore} startFrom={startFrom} /> : homeScore}
+      {useAnim ? (
+        <AnimatedNumber
+          value={homeScore}
+          startFrom={startFrom}
+          durationMs={durationMs}
+          delayMs={delayMs}
+        />
+      ) : (
+        homeScore
+      )}
       &nbsp;:&nbsp;
-      {useAnim ? <AnimatedNumber value={awayScore} startFrom={startFrom} /> : awayScore}
+      {useAnim ? (
+        <AnimatedNumber
+          value={awayScore}
+          startFrom={startFrom}
+          durationMs={durationMs}
+          delayMs={delayMs}
+        />
+      ) : (
+        awayScore
+      )}
     </span>
   );
 }

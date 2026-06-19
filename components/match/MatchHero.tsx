@@ -37,11 +37,13 @@ export function MatchHero({ match }: { match: Match }) {
 
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-8 sm:gap-8">
         <TeamColumn name={match.home} size="lg" />
-        <div className="animate-in zoom-in-95 duration-500">
+        <div className="animate-in zoom-in-90 duration-700">
           <ScoreDisplay
             homeScore={match.homeScore}
             awayScore={match.awayScore}
             countUp
+            durationMs={1600}
+            delayMs={400}
             className="text-3xl sm:text-4xl"
           />
         </div>
