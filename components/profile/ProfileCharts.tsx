@@ -15,6 +15,8 @@ import {
 } from "recharts";
 import type { PointDistribution, ProfileTip } from "@/lib/api/types";
 import { useChartColors, type ChartColors } from "@/hooks/useChartColors";
+import { chronologicalTips } from "@/lib/tips";
+import { formatKickoff } from "@/lib/datetime";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function useMounted() {
@@ -45,9 +47,13 @@ export function PointsProgressionChart({ history }: { history: ProfileTip[] }) {
   if (history.length === 0) return null;
 
   let cum = 0;
-  const data = history.map((t, i) => {
+  const data = chronologicalTips(history).map((t, i) => {
     cum += t.points;
-    return { n: i + 1, total: cum };
+    return {
+      n: i + 1,
+      total: cum,
+      date: t.kickoffUtc ? formatKickoff(t.kickoffUtc) : `Tipp ${i + 1}`,
+    };
   });
 
   return (
@@ -66,7 +72,7 @@ export function PointsProgressionChart({ history }: { history: ProfileTip[] }) {
           tickLine={false}
           axisLine={false}
           label={{
-            value: "Tipp-Nr.",
+            value: "Spiele (chronologisch)",
             position: "insideBottom",
             offset: -8,
             fontSize: 11,
@@ -77,7 +83,7 @@ export function PointsProgressionChart({ history }: { history: ProfileTip[] }) {
         <RTooltip
           {...tooltipProps(colors)}
           cursor={{ stroke: colors.grid }}
-          labelFormatter={(l) => `Nach Tipp ${l}`}
+          labelFormatter={(_, payload) => payload?.[0]?.payload?.date ?? ""}
           formatter={(value: number) => [`${value} Punkte`, "Gesamt"]}
         />
         <Area

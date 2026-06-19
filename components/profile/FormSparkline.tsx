@@ -1,21 +1,22 @@
 import type { ProfileTip } from "@/lib/api/types";
+import { chronologicalTips } from "@/lib/tips";
 
 /** Tailwind-Fill-Klasse je Punktstufe. */
 function tierFill(points: number): string {
   if (points >= 4) return "fill-success";
   if (points === 3) return "fill-primary";
   if (points === 2) return "fill-warning";
-  return "fill-muted-foreground/40";
+  return "fill-muted-foreground/50";
 }
 
 const BAR_W = 7;
 const GAP = 4;
 const MAX_H = 28;
-const MIN_H = 4;
+const MIN_H = 5;
 
 /**
- * Mini-„Form"-Sparkline: die letzten `max` Tipps als Balken, Höhe ∝ Punkte,
- * Farbe nach Stufe (4/3/2/0). Reines SVG — kein Chart-Framework, Dark-Mode-fähig.
+ * Mini-„Form"-Sparkline: die letzten `max` Tipps (chronologisch, jüngste rechts)
+ * als Balken, Höhe ∝ Punkte, Farbe nach Stufe (4/3/2/0). Reines SVG.
  */
 export function FormSparkline({
   history,
@@ -24,7 +25,7 @@ export function FormSparkline({
   history: ProfileTip[];
   max?: number;
 }) {
-  const tips = history.slice(-max);
+  const tips = chronologicalTips(history).slice(-max);
   if (tips.length === 0) return null;
 
   const width = tips.length * BAR_W + (tips.length - 1) * GAP;
@@ -35,7 +36,7 @@ export function FormSparkline({
       height={MAX_H}
       viewBox={`0 0 ${width} ${MAX_H}`}
       role="img"
-      aria-label={`Form der letzten ${tips.length} Tipps`}
+      aria-label={`Form der letzten ${tips.length} Tipps (chronologisch)`}
       className="overflow-visible"
     >
       {tips.map((tip, i) => {
@@ -53,7 +54,7 @@ export function FormSparkline({
             rx={2}
             className={tierFill(tip.points)}
           >
-            <title>{tip.points} P</title>
+            <title>{`${tip.points} P${tip.home ? ` · ${tip.home}–${tip.away}` : ""}`}</title>
           </rect>
         );
       })}
