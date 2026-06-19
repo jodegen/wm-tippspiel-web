@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import type { ProfileTip } from "@/lib/api/types";
 import { EmptyState } from "@/components/feedback/EmptyState";
+import { PointsBadge } from "@/components/match/PointsBadge";
 import { formatKickoff } from "@/lib/datetime";
 import { stageLabel } from "@/lib/filters";
 import { cn } from "@/lib/utils";
@@ -10,27 +11,6 @@ import { cn } from "@/lib/utils";
 function resultText(tip: ProfileTip): string {
   if (tip.resultHome == null || tip.resultAway == null) return "–:–";
   return `${tip.resultHome}:${tip.resultAway}`;
-}
-
-/** Farbe der Punkte-Pill nach erreichter Stufe (4/3/2/0). */
-function pointsPillClass(points: number): string {
-  if (points >= 4) return "bg-success/15 text-success";
-  if (points === 3) return "bg-primary/10 text-primary";
-  if (points === 2) return "bg-warning/15 text-warning";
-  return "bg-muted text-muted-foreground";
-}
-
-function PointsPill({ points }: { points: number }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex min-w-12 items-center justify-center rounded-md px-2 py-1 text-xs font-semibold tabular-nums",
-        pointsPillClass(points),
-      )}
-    >
-      {points} P
-    </span>
-  );
 }
 
 /** Datum/Stage-Kontextzeile (unterscheidet Wiederholungsbegegnungen). */
@@ -71,7 +51,7 @@ function TipRow({ tip }: { tip: ProfileTip }) {
           </div>
           <div>{resultText(tip)}</div>
         </div>
-        <PointsPill points={tip.points} />
+        <PointsBadge points={tip.points} />
         {tip.matchId != null ? (
           <ChevronRight className="h-4 w-4 text-muted-foreground" aria-hidden />
         ) : null}
@@ -149,7 +129,7 @@ function HighlightCard({
         <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           {title}
         </span>
-        <PointsPill points={tip.points} />
+        <PointsBadge points={tip.points} />
       </div>
       <div className="font-medium">
         {tip.home} <span className="text-muted-foreground">–</span> {tip.away}

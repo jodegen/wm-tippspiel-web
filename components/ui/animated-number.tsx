@@ -6,14 +6,17 @@ import { useEffect, useRef, useState } from "react";
 export function AnimatedNumber({
   value,
   durationMs = 500,
+  startFrom,
   className,
 }: {
   value: number;
   durationMs?: number;
+  /** Startwert für eine Animation beim Mounten (z. B. 0 → Endwert). */
+  startFrom?: number;
   className?: string;
 }) {
-  const [display, setDisplay] = useState(value);
-  const fromRef = useRef(value);
+  const [display, setDisplay] = useState(startFrom ?? value);
+  const fromRef = useRef(startFrom ?? value);
 
   useEffect(() => {
     const from = fromRef.current;

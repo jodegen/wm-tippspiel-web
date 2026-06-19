@@ -3,6 +3,7 @@ import { Lock } from "lucide-react";
 import type { MatchTips as MatchTipsDto } from "@/lib/api/types";
 import { EmptyState } from "@/components/feedback/EmptyState";
 import { Avatar } from "@/components/ui/avatar";
+import { PointsBadge } from "@/components/match/PointsBadge";
 
 interface MatchTipsProps {
   data: MatchTipsDto;
@@ -63,14 +64,10 @@ export function MatchTips({ data, playerIds = {} }: MatchTipsProps) {
               )}
             </span>
             <span className="flex shrink-0 items-center gap-3">
-              <span className="tabular-nums text-muted-foreground">
-                {tip.tipHome} : {tip.tipAway}
+              <span className="rounded-md bg-muted px-2 py-0.5 font-semibold tabular-nums">
+                {tip.tipHome}&nbsp;:&nbsp;{tip.tipAway}
               </span>
-              {tip.points != null ? (
-                <span className="min-w-10 rounded-md bg-secondary px-2 py-0.5 text-right text-xs font-semibold tabular-nums">
-                  {tip.points} P
-                </span>
-              ) : null}
+              {tip.points != null ? <PointsBadge points={tip.points} /> : null}
             </span>
           </li>
         );

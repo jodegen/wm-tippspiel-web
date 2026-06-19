@@ -6,6 +6,8 @@ interface ScoreDisplayProps {
   awayScore?: number | null;
   /** Score-Änderungen weich hochzählen (für /live). */
   animate?: boolean;
+  /** Beim Laden von 0 auf den Endstand hochzählen. */
+  countUp?: boolean;
   className?: string;
 }
 
@@ -14,6 +16,7 @@ export function ScoreDisplay({
   homeScore,
   awayScore,
   animate = false,
+  countUp = false,
   className,
 }: ScoreDisplayProps) {
   const hasScore =
@@ -33,11 +36,14 @@ export function ScoreDisplay({
     );
   }
 
+  const useAnim = animate || countUp;
+  const startFrom = countUp ? 0 : undefined;
+
   return (
     <span className={cn("font-semibold tabular-nums", className)}>
-      {animate ? <AnimatedNumber value={homeScore} /> : homeScore}
+      {useAnim ? <AnimatedNumber value={homeScore} startFrom={startFrom} /> : homeScore}
       &nbsp;:&nbsp;
-      {animate ? <AnimatedNumber value={awayScore} /> : awayScore}
+      {useAnim ? <AnimatedNumber value={awayScore} startFrom={startFrom} /> : awayScore}
     </span>
   );
 }

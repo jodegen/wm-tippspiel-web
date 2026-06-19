@@ -5,7 +5,7 @@ import { formatKickoff, isToday } from "@/lib/datetime";
 import { stageLabel } from "@/lib/filters";
 import { MatchStatusBadge } from "@/components/match/MatchStatusBadge";
 import { ScoreDisplay } from "@/components/match/ScoreDisplay";
-import { TeamLabel } from "@/components/match/TeamLabel";
+import { TeamColumn } from "@/components/match/TeamColumn";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -60,15 +60,15 @@ export function MatchCard({
         </span>
       </div>
 
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-        <TeamLabel name={match.home} />
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+        <TeamColumn name={match.home} />
         <ScoreDisplay
           homeScore={match.homeScore}
           awayScore={match.awayScore}
           animate={animate}
-          className="text-lg"
+          className="text-xl"
         />
-        <TeamLabel name={match.away} align="right" />
+        <TeamColumn name={match.away} />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t pt-3 text-xs text-muted-foreground">
