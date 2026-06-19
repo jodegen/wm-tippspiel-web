@@ -1,5 +1,6 @@
 import { getSchedule } from "@/lib/api/matches";
 import { getLeaderboard } from "@/lib/api/leaderboard";
+import { isTbd } from "@/lib/filters";
 import type { MatchStatus } from "@/lib/api/types";
 
 export interface SearchIndex {
@@ -19,12 +20,14 @@ export async function getSearchIndex(): Promise<SearchIndex> {
       getLeaderboard(),
     ]);
     return {
-      matches: schedule.map((m) => ({
-        matchId: m.matchId,
-        home: m.home,
-        away: m.away,
-        status: m.status,
-      })),
+      matches: schedule
+        .filter((m) => !isTbd(m))
+        .map((m) => ({
+          matchId: m.matchId,
+          home: m.home,
+          away: m.away,
+          status: m.status,
+        })),
       players: leaderboard
         .filter((r) => r.publicId)
         .map((r) => ({ publicId: r.publicId as string, displayName: r.displayName })),

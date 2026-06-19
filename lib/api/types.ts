@@ -85,6 +85,14 @@ export interface ProfileTip {
   resultHome?: number | null;
   resultAway?: number | null;
   points: number;
+  /**
+   * Optionale Kontextfelder zur eindeutigen Zuordnung & Verlinkung des Spiels
+   * (FR: Wiederholungsbegegnungen unterscheiden). Greifen, sobald das Backend
+   * sie in ProfileTip liefert.
+   */
+  matchId?: number;
+  kickoffUtc?: string;
+  stage?: string;
 }
 
 export interface Profile {

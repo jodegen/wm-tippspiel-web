@@ -26,6 +26,7 @@ const STAGE_LABELS: Record<string, string> = {
   GROUP_STAGE: "Gruppenphase",
   ROUND_OF_32: "Sechzehntelfinale",
   ROUND_OF_16: "Achtelfinale",
+  LAST_16: "Achtelfinale",
   QUARTER_FINAL: "Viertelfinale",
   QUARTER_FINALS: "Viertelfinale",
   SEMI_FINAL: "Halbfinale",
@@ -33,6 +34,12 @@ const STAGE_LABELS: Record<string, string> = {
   THIRD_PLACE: "Spiel um Platz 3",
   FINAL: "Finale",
 };
+
+/** Noch nicht feststehende Begegnung (Teilnehmer = "TBD"). */
+export function isTbd(match: { home: string; away: string }): boolean {
+  const norm = (s: string) => (s ?? "").trim().toUpperCase();
+  return !match.home || !match.away || norm(match.home) === "TBD" || norm(match.away) === "TBD";
+}
 
 /** Wandelt einen Stage-Code in ein lesbares Label (mit Fallback). */
 export function stageLabel(stage: string): string {
@@ -87,21 +94,28 @@ export function deriveMatchdayOptions(matches: Match[]): FilterOption[] {
     .map((value) => ({ key: value, label: `Spieltag ${value}` }));
 }
 
-/** Filtert (Phase UND Spieltag) und sortiert chronologisch nach Anstoß. */
-export function filterMatches(
-  matches: Match[],
-  filter: SpielplanFilter,
-): Match[] {
-  const { phaseKey: selectedPhase, matchday } = filter;
+/** Sortiert eine Kopie nach Anstoßzeit (auf-/absteigend). */
+export function sortByKickoff(matches: Match[], order: "asc" | "desc" = "asc"): Match[] {
+  const dir = order === "desc" ? -1 : 1;
   return matches
-    .filter((match) => {
-      if (selectedPhase && phaseKey(match) !== selectedPhase) return false;
-      if (matchday && String(match.matchday) !== matchday) return false;
-      return true;
-    })
     .slice()
     .sort(
       (a, b) =>
-        new Date(a.kickoffUtc).getTime() - new Date(b.kickoffUtc).getTime(),
+        dir * (new Date(a.kickoffUtc).getTime() - new Date(b.kickoffUtc).getTime()),
     );
+}
+
+/** Filtert (Phase UND Spieltag) und sortiert nach Anstoß (Default aufsteigend). */
+export function filterMatches(
+  matches: Match[],
+  filter: SpielplanFilter,
+  order: "asc" | "desc" = "asc",
+): Match[] {
+  const { phaseKey: selectedPhase, matchday } = filter;
+  const filtered = matches.filter((match) => {
+    if (selectedPhase && phaseKey(match) !== selectedPhase) return false;
+    if (matchday && String(match.matchday) !== matchday) return false;
+    return true;
+  });
+  return sortByKickoff(filtered, order);
 }
