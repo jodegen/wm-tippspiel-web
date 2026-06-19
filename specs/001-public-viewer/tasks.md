@@ -121,11 +121,11 @@ sowie besten/schlechtesten Tipp (Aggregate vom Backend), inkl. „nicht gefunden
 **Independent Test**: `/profil/<gültige-id>` → vollständiges Profil; unbekannte id →
 „nicht gefunden"; leere Historie → verständlicher Leerzustand.
 
-- [ ] T033 [P] [US4] `getPlayerProfile(id)`-Datenfunktion (ISR `revalidate: 60`, `notFound()` bei 404) in `lib/api/players.ts`
-- [ ] T034 [P] [US4] `StatsSummary` (aggregierte Kennzahlen) in `components/profile/StatsSummary.tsx`
-- [ ] T035 [P] [US4] `TierDistribution` (Punktstufen-Verteilung) in `components/profile/TierDistribution.tsx`
-- [ ] T036 [P] [US4] `TipHistory` (Historie inkl. Best/Worst-Hervorhebung; Leerzustand) in `components/profile/TipHistory.tsx`
-- [ ] T037 [US4] Seite `app/profil/[id]/page.tsx` (Server-Component, ISR): lädt Profil, rendert Stats/Verteilung/Historie, `not-found`/Error-States (nutzt T034–T036)
+- [X] T033 [P] [US4] `getPlayerProfile(id)`-Datenfunktion (ISR `revalidate: 60`, `notFound()` bei 404) in `lib/api/players.ts`
+- [X] T034 [P] [US4] `StatsSummary` (aggregierte Kennzahlen) in `components/profile/StatsSummary.tsx`
+- [X] T035 [P] [US4] `TierDistribution` (Punktstufen-Verteilung) in `components/profile/TierDistribution.tsx`
+- [X] T036 [P] [US4] `TipHistory` (Historie inkl. Best/Worst-Hervorhebung; Leerzustand) in `components/profile/TipHistory.tsx`
+- [X] T037 [US4] Seite `app/profil/[id]/page.tsx` (Server-Component, ISR): lädt Profil, rendert Stats/Verteilung/Historie, `not-found`/Error-States (nutzt T034–T036)
 
 **Checkpoint**: US1–US4 unabhängig funktionsfähig
 
@@ -139,9 +139,9 @@ liefert vorher keine), inkl. „nicht gefunden".
 **Independent Test**: angepfiffenes Spiel → Details + Tipps; nicht angepfiffenes Spiel
 → Details ohne Tipps; unbekannte id → „nicht gefunden".
 
-- [ ] T038 [P] [US5] `getMatchDetail(id)`-Datenfunktion (ISR `revalidate: 30`, `notFound()` bei 404) in `lib/api/match-detail.ts`
-- [ ] T039 [P] [US5] `MatchTips`-Komponente (Liste abgegebener Tipps; rendert nur bei `status !== scheduled`; sonst Hinweis „Tipps erst nach Anpfiff") in `components/match/MatchTips.tsx`
-- [ ] T040 [US5] Seite `app/spiel/[id]/page.tsx` (Server-Component): rendert Details via `MatchCard` + `MatchTips`, `not-found`/Error-States (nutzt T039)
+- [X] T038 [P] [US5] `getMatchDetail(id)`-Datenfunktion (ISR `revalidate: 30`, `notFound()` bei 404) in `lib/api/match-detail.ts`
+- [X] T039 [P] [US5] `MatchTips`-Komponente (Liste abgegebener Tipps; rendert nur bei `status !== scheduled`; sonst Hinweis „Tipps erst nach Anpfiff") in `components/match/MatchTips.tsx`
+- [X] T040 [US5] Seite `app/spiel/[id]/page.tsx` (Server-Component): rendert Details via `MatchCard` + `MatchTips`, `not-found`/Error-States (nutzt T039)
 
 **Checkpoint**: Alle fünf User Stories unabhängig funktionsfähig
 
