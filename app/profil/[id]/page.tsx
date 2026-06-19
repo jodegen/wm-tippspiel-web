@@ -4,6 +4,7 @@ import { getPlayerProfile } from "@/lib/api/players";
 import { ApiError } from "@/lib/api/client";
 import { Container } from "@/components/layout/Container";
 import { StatsSummary } from "@/components/profile/StatsSummary";
+import { FormSparkline } from "@/components/profile/FormSparkline";
 import { TipHistory } from "@/components/profile/TipHistory";
 import {
   DistributionChart,
@@ -56,8 +57,19 @@ export default async function ProfilePage({
         </div>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-8 space-y-4">
         <StatsSummary profile={profile} />
+        {profile.history.length > 0 ? (
+          <div className="flex items-center gap-4 rounded-lg border bg-card px-4 py-3">
+            <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Form
+            </span>
+            <FormSparkline history={profile.history} />
+            <span className="ml-auto text-xs text-muted-foreground">
+              letzte {Math.min(12, profile.history.length)} Tipps
+            </span>
+          </div>
+        ) : null}
       </div>
 
       <Tabs defaultValue="overview">
