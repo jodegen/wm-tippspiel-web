@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getSchedule, getMatchTips } from "@/lib/api/matches";
+import { getLeaderboard } from "@/lib/api/leaderboard";
 import { ApiError } from "@/lib/api/client";
 import { formatKickoff } from "@/lib/datetime";
 import { phaseLabel } from "@/lib/filters";
@@ -27,13 +28,19 @@ export default async function MatchDetailPage({
   // Tipps über den separaten Tips-Endpoint (regelt Sichtbarkeit via released).
   let match: Match | undefined;
   let tips: MatchTipsDto;
+  const playerIds: Record<string, string> = {};
   try {
-    const [schedule, tipsData] = await Promise.all([
+    const [schedule, tipsData, leaderboard] = await Promise.all([
       getSchedule(),
       getMatchTips(matchId),
+      // Rangliste nur für die Profil-Verlinkung der Tipps; Fehler darf die Seite nicht brechen.
+      getLeaderboard().catch(() => []),
     ]);
     match = schedule.find((m) => m.matchId === matchId);
     tips = tipsData;
+    for (const row of leaderboard) {
+      if (row.publicId) playerIds[row.displayName] = row.publicId;
+    }
   } catch (error) {
     if (error instanceof ApiError && error.kind === "not-found") {
       notFound();
@@ -80,7 +87,7 @@ export default async function MatchDetailPage({
         <h2 id="tips-heading" className="mb-3 text-lg font-semibold">
           Abgegebene Tipps
         </h2>
-        <MatchTips data={tips} />
+        <MatchTips data={tips} playerIds={playerIds} />
       </section>
     </Container>
   );

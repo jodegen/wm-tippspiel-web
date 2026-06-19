@@ -60,6 +60,8 @@ export interface PublicTip {
   tipAway: number;
   /** Nur bei bereits gewertetem Spiel. */
   points?: number | null;
+  /** Öffentlicher Identifier für die Profil-Verlinkung (falls Backend ihn liefert). */
+  publicId?: string;
 }
 
 export interface MatchTips {
