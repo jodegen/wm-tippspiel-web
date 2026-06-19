@@ -43,7 +43,11 @@ export function MatchTips({ data, playerIds = {} }: MatchTipsProps) {
         return (
           <li
             key={`${tip.displayName}-${index}`}
-            className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm"
+            className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm animate-in fade-in slide-in-from-bottom-1"
+            style={{
+              animationDelay: `${Math.min(index, 12) * 40}ms`,
+              animationFillMode: "both",
+            }}
           >
             <span className="flex min-w-0 items-center gap-2">
               <Avatar name={tip.displayName} className="h-7 w-7 text-[10px]" />
