@@ -1,10 +1,13 @@
 import type { Profile } from "@/lib/api/types";
 import { Card } from "@/components/ui/card";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 
-function Stat({ label, value }: { label: string; value: string | number }) {
+function Stat({ label, value }: { label: string; value: number | string }) {
   return (
     <Card className="p-4 text-center">
-      <div className="text-2xl font-semibold tabular-nums">{value}</div>
+      <div className="text-2xl font-semibold tabular-nums">
+        {typeof value === "number" ? <AnimatedNumber value={value} /> : value}
+      </div>
       <div className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">
         {label}
       </div>

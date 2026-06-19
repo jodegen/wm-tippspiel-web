@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar } from "@/components/ui/avatar";
+import { InfoTooltip } from "@/components/ui/info-tooltip";
 import { RankDeltaIndicator } from "@/components/leaderboard/RankDeltaIndicator";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +25,12 @@ export function LeaderboardTable({ entries }: { entries: LeaderboardRow[] }) {
             <TableHead>Teilnehmer</TableHead>
             <TableHead className="text-right">Punkte</TableHead>
             <TableHead className="hidden text-right sm:table-cell">Exakt</TableHead>
-            <TableHead className="text-right">Trend</TableHead>
+            <TableHead className="text-right">
+              <span className="inline-flex items-center gap-1">
+                Trend
+                <InfoTooltip text="Rang-Veränderung gegenüber dem vorherigen Spieltag" />
+              </span>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -58,3 +58,24 @@ export function formatDate(iso: string): string {
   if (!date) return "—";
   return dateFormatter.format(date);
 }
+
+const isoDayFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: TIME_ZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+/** Schlüssel des Kalendertags (Europe/Berlin), z. B. "2026-06-19" — für Gruppierung. */
+export function berlinDayKey(iso: string): string {
+  const date = toDate(iso);
+  if (!date) return "—";
+  return isoDayFormatter.format(date);
+}
+
+/** Ob der Anstoß (in Europe/Berlin) auf den heutigen Tag fällt. */
+export function isToday(iso: string): boolean {
+  const date = toDate(iso);
+  if (!date) return false;
+  return isoDayFormatter.format(date) === isoDayFormatter.format(new Date());
+}

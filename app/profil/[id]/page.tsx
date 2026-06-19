@@ -4,11 +4,18 @@ import { getPlayerProfile } from "@/lib/api/players";
 import { ApiError } from "@/lib/api/client";
 import { Container } from "@/components/layout/Container";
 import { StatsSummary } from "@/components/profile/StatsSummary";
-import { TierDistribution } from "@/components/profile/TierDistribution";
 import { TipHistory } from "@/components/profile/TipHistory";
+import {
+  DistributionChart,
+  PointsProgressionChart,
+} from "@/components/profile/ProfileCharts";
 import { ErrorState } from "@/components/feedback/ErrorState";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { InfoTooltip } from "@/components/ui/info-tooltip";
+import { EmptyState } from "@/components/feedback/EmptyState";
 import type { Profile } from "@/lib/api/types";
 
 export const metadata: Metadata = { title: "Spielerprofil" };
@@ -36,46 +43,66 @@ export default async function ProfilePage({
 
   return (
     <Container>
-      <div className="mb-6 flex items-center gap-4">
+      <div className="mb-6 flex items-center gap-4 animate-in fade-in slide-in-from-bottom-1 duration-300">
         <Avatar name={profile.displayName} className="h-14 w-14 text-lg" />
         <div className="min-w-0">
-          <h1 className="truncate text-2xl font-bold">{profile.displayName}</h1>
+          <h1 className="truncate text-2xl font-bold tracking-tight">
+            {profile.displayName}
+          </h1>
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
             <span>Spielerprofil</span>
-            {profile.rank != null ? (
-              <Badge>Rang {profile.rank}</Badge>
-            ) : null}
+            {profile.rank != null ? <Badge>Rang {profile.rank}</Badge> : null}
           </div>
         </div>
       </div>
 
-      <section className="mb-8" aria-labelledby="stats-heading">
-        <h2 id="stats-heading" className="sr-only">
-          Statistiken
-        </h2>
+      <div className="mb-8">
         <StatsSummary profile={profile} />
-      </section>
+      </div>
 
-      <section className="mb-8" aria-labelledby="tiers-heading">
-        <h2 id="tiers-heading" className="mb-3 text-lg font-semibold">
-          Punktstufen-Verteilung
-        </h2>
-        <TierDistribution distribution={profile.distribution} />
-      </section>
+      <Tabs defaultValue="overview">
+        <TabsList>
+          <TabsTrigger value="overview">Übersicht</TabsTrigger>
+          <TabsTrigger value="history">Historie</TabsTrigger>
+        </TabsList>
 
-      <section aria-labelledby="history-heading">
-        <h2
-          id="history-heading"
-          className="mb-3 text-lg font-semibold"
-        >
-          Tipp-Historie
-        </h2>
-        <TipHistory
-          history={profile.history}
-          bestTip={profile.bestTip}
-          worstTip={profile.worstTip}
-        />
-      </section>
+        <TabsContent value="overview">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Punkteverlauf</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {profile.history.length > 0 ? (
+                  <PointsProgressionChart history={profile.history} />
+                ) : (
+                  <EmptyState title="Noch keine Daten" />
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-1.5 text-sm">
+                  Punktstufen-Verteilung
+                  <InfoTooltip text="4 P = exakter Treffer · 3 P = richtige Tordifferenz · 2 P = richtige Tendenz · 0 P = daneben" />
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <DistributionChart distribution={profile.distribution} />
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="history">
+          <TipHistory
+            history={profile.history}
+            bestTip={profile.bestTip}
+            worstTip={profile.worstTip}
+          />
+        </TabsContent>
+      </Tabs>
     </Container>
   );
 }

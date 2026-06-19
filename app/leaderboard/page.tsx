@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getLeaderboard } from "@/lib/api/leaderboard";
 import { Container } from "@/components/layout/Container";
 import { LeaderboardTable } from "@/components/leaderboard/LeaderboardTable";
+import { Podium } from "@/components/leaderboard/Podium";
 import { EmptyState } from "@/components/feedback/EmptyState";
 import { ErrorState } from "@/components/feedback/ErrorState";
 
@@ -14,7 +15,7 @@ export default async function LeaderboardPage() {
   } catch {
     return (
       <Container>
-        <h1 className="mb-4 text-2xl font-bold">Rangliste</h1>
+        <h1 className="mb-6 text-2xl font-bold tracking-tight">Rangliste</h1>
         <ErrorState />
       </Container>
     );
@@ -22,14 +23,17 @@ export default async function LeaderboardPage() {
 
   return (
     <Container>
-      <h1 className="mb-4 text-2xl font-bold">Rangliste</h1>
+      <h1 className="mb-6 text-2xl font-bold tracking-tight">Rangliste</h1>
       {entries.length === 0 ? (
         <EmptyState
           title="Noch keine Rangliste"
           message="Sobald Ergebnisse vorliegen, erscheint hier die vollständige Rangliste."
         />
       ) : (
-        <LeaderboardTable entries={entries} />
+        <div className="animate-in fade-in slide-in-from-bottom-1 duration-300">
+          <Podium entries={entries} />
+          <LeaderboardTable entries={entries} />
+        </div>
       )}
     </Container>
   );

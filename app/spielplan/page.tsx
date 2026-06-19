@@ -8,6 +8,8 @@ import {
   isTbd,
   sortByKickoff,
 } from "@/lib/filters";
+import { berlinDayKey, formatDate } from "@/lib/datetime";
+import type { Match } from "@/lib/api/types";
 import { Container } from "@/components/layout/Container";
 import { MatchCard } from "@/components/match/MatchCard";
 import { SpielplanFilters } from "@/components/match/SpielplanFilters";
@@ -21,6 +23,20 @@ type SearchParams = Record<string, string | string[] | undefined>;
 function readParam(params: SearchParams, key: string): string {
   const value = params[key];
   return typeof value === "string" ? value : "";
+}
+
+/** Gruppiert (bereits sortierte) Spiele nach Kalendertag (Europe/Berlin). */
+function groupByDay(
+  matches: Match[],
+): { key: string; label: string; items: Match[] }[] {
+  const groups: { key: string; label: string; items: Match[] }[] = [];
+  for (const m of matches) {
+    const key = berlinDayKey(m.kickoffUtc);
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.items.push(m);
+    else groups.push({ key, label: formatDate(m.kickoffUtc), items: [m] });
+  }
+  return groups;
 }
 
 export default async function SpielplanPage({
@@ -100,9 +116,18 @@ export default async function SpielplanPage({
             message="Passe die Filter an, um Spiele anzuzeigen."
           />
         ) : (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            {matches.map((match) => (
-              <MatchCard key={match.matchId} match={match} />
+          <div className="flex flex-col gap-6">
+            {groupByDay(matches).map((group) => (
+              <div key={group.key}>
+                <h3 className="sticky top-14 z-10 mb-3 bg-background/95 py-1.5 text-sm font-semibold backdrop-blur">
+                  {group.label}
+                </h3>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {group.items.map((match) => (
+                    <MatchCard key={match.matchId} match={match} />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         )}

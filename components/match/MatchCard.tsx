@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Tv } from "lucide-react";
 import type { MatchSummary } from "@/lib/api/types";
-import { formatKickoff } from "@/lib/datetime";
+import { formatKickoff, isToday } from "@/lib/datetime";
 import { stageLabel } from "@/lib/filters";
 import { MatchStatusBadge } from "@/components/match/MatchStatusBadge";
 import { ScoreDisplay } from "@/components/match/ScoreDisplay";
 import { TeamLabel } from "@/components/match/TeamLabel";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 function phaseText(match: MatchSummary): string | null {
   if (match.group) return `Gruppe ${match.group}`;
@@ -22,9 +24,16 @@ function oddsText(match: MatchSummary): string | null {
 }
 
 /** Karte für ein einzelnes Spiel; verlinkt auf die Detailseite. */
-export function MatchCard({ match }: { match: MatchSummary }) {
+export function MatchCard({
+  match,
+  animate = false,
+}: {
+  match: MatchSummary;
+  animate?: boolean;
+}) {
   const phase = phaseText(match);
   const odds = oddsText(match);
+  const today = isToday(match.kickoffUtc);
   const meta = [phase, match.matchday != null ? `Spieltag ${match.matchday}` : null]
     .filter(Boolean)
     .join(" · ");
@@ -32,13 +41,23 @@ export function MatchCard({ match }: { match: MatchSummary }) {
   return (
     <Link
       href={`/spiel/${encodeURIComponent(String(match.matchId))}`}
-      className="group block rounded-lg border bg-card p-4 shadow-sm transition-all hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className={cn(
+        "group block rounded-lg border bg-card p-4 shadow-sm transition-all duration-200",
+        "hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        "animate-in fade-in slide-in-from-bottom-1",
+      )}
     >
       <div className="mb-3 flex items-center justify-between gap-2">
         <span className="truncate text-xs font-medium text-muted-foreground">
-          {meta || " "}
+          {meta || " "}
         </span>
-        <MatchStatusBadge status={match.status} />
+        <span className="flex shrink-0 items-center gap-1.5">
+          {today && match.status === "SCHEDULED" ? (
+            <Badge variant="primary">Heute</Badge>
+          ) : null}
+          <MatchStatusBadge status={match.status} />
+        </span>
       </div>
 
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
@@ -46,6 +65,7 @@ export function MatchCard({ match }: { match: MatchSummary }) {
         <ScoreDisplay
           homeScore={match.homeScore}
           awayScore={match.awayScore}
+          animate={animate}
           className="text-lg"
         />
         <TeamLabel name={match.away} align="right" />

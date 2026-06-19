@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,8 +21,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a href="#main" className="skip-link">
           Zum Inhalt springen
         </a>
-        <Header />
-        <main id="main">{children}</main>
+        <Providers>
+          <Header />
+          <main id="main">{children}</main>
+        </Providers>
+        <Toaster />
       </body>
     </html>
   );

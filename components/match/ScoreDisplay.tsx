@@ -1,13 +1,21 @@
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { cn } from "@/lib/utils";
 
 interface ScoreDisplayProps {
   homeScore?: number | null;
   awayScore?: number | null;
+  /** Score-Änderungen weich hochzählen (für /live). */
+  animate?: boolean;
   className?: string;
 }
 
 /** Zeigt das Ergebnis bzw. "–:–", solange kein Stand vorliegt. */
-export function ScoreDisplay({ homeScore, awayScore, className }: ScoreDisplayProps) {
+export function ScoreDisplay({
+  homeScore,
+  awayScore,
+  animate = false,
+  className,
+}: ScoreDisplayProps) {
   const hasScore =
     homeScore !== null &&
     homeScore !== undefined &&
@@ -27,7 +35,9 @@ export function ScoreDisplay({ homeScore, awayScore, className }: ScoreDisplayPr
 
   return (
     <span className={cn("font-semibold tabular-nums", className)}>
-      {homeScore}&nbsp;:&nbsp;{awayScore}
+      {animate ? <AnimatedNumber value={homeScore} /> : homeScore}
+      &nbsp;:&nbsp;
+      {animate ? <AnimatedNumber value={awayScore} /> : awayScore}
     </span>
   );
 }
