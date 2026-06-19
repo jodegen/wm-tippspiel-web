@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 /** Einheitliche Team-Darstellung (Backend liefert den Teamnamen als String). */
 export function TeamLabel({
   name,
@@ -8,7 +10,7 @@ export function TeamLabel({
 }) {
   return (
     <span
-      className={`font-medium text-slate-900 ${align === "right" ? "text-right" : ""}`}
+      className={cn("truncate font-medium", align === "right" && "text-right")}
     >
       {name}
     </span>

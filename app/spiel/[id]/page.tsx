@@ -7,7 +7,6 @@ import { phaseLabel } from "@/lib/filters";
 import { Container } from "@/components/layout/Container";
 import { MatchStatusBadge } from "@/components/match/MatchStatusBadge";
 import { ScoreDisplay } from "@/components/match/ScoreDisplay";
-import { TeamLabel } from "@/components/match/TeamLabel";
 import { MatchTips } from "@/components/match/MatchTips";
 import { ErrorState } from "@/components/feedback/ErrorState";
 import type { Match, MatchTips as MatchTipsDto } from "@/lib/api/types";
@@ -50,28 +49,30 @@ export default async function MatchDetailPage({
   return (
     <Container>
       <div className="mb-2 flex items-center justify-between gap-2">
-        <span className="text-sm font-medium text-slate-500">
+        <span className="text-sm font-medium text-muted-foreground">
           {phaseLabel(match)}
           {match.matchday != null ? ` · Spieltag ${match.matchday}` : ""}
         </span>
         <MatchStatusBadge status={match.status} />
       </div>
 
-      <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-lg border border-surface-border bg-surface p-6">
-        <TeamLabel name={match.home} />
-        <div className="text-2xl">
-          <ScoreDisplay homeScore={match.homeScore} awayScore={match.awayScore} />
-        </div>
-        <TeamLabel name={match.away} align="right" />
+      <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-lg border bg-card p-6 shadow-sm">
+        <span className="truncate text-lg font-semibold">{match.home}</span>
+        <ScoreDisplay
+          homeScore={match.homeScore}
+          awayScore={match.awayScore}
+          className="text-3xl"
+        />
+        <span className="truncate text-right text-lg font-semibold">{match.away}</span>
       </div>
 
-      <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
+      <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
         <span>{formatKickoff(match.kickoffUtc)} Uhr</span>
         {match.tvChannel ? <span>📺 {match.tvChannel}</span> : null}
       </div>
 
       <section aria-labelledby="tips-heading">
-        <h2 id="tips-heading" className="mb-3 text-lg font-semibold text-slate-900">
+        <h2 id="tips-heading" className="mb-3 text-lg font-semibold">
           Abgegebene Tipps
         </h2>
         <MatchTips data={tips} />

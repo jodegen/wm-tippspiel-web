@@ -1,34 +1,80 @@
 import type { Config } from "tailwindcss";
 
-// Theme-Tokens an das Steuerfertig-Projekt angeglichen (Farben, Typo, Spacing).
-// Bei finalem Abgleich mit Steuerfertig hier die konkreten Marken-Tokens ergänzen.
+// shadcn/ui-Tokens über CSS-Variablen. Dark Mode wird system-basiert
+// (prefers-color-scheme) gesteuert — kein Toggle, kein JS nötig.
 const config: Config = {
+  darkMode: "media",
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./hooks/**/*.{ts,tsx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "1rem",
+      screens: { "2xl": "64rem" },
+    },
     extend: {
       colors: {
-        brand: {
-          DEFAULT: "#1d4ed8",
-          fg: "#ffffff",
-          muted: "#3b82f6",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
-        surface: {
-          DEFAULT: "#ffffff",
-          subtle: "#f8fafc",
-          border: "#e2e8f0",
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
-        status: {
-          live: "#dc2626",
-          scheduled: "#64748b",
-          finished: "#16a34a",
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+      },
+      keyframes: {
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(4px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.2s ease-out",
       },
     },
   },

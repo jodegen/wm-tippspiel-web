@@ -1,10 +1,13 @@
+import { cn } from "@/lib/utils";
+
 interface ScoreDisplayProps {
   homeScore?: number | null;
   awayScore?: number | null;
+  className?: string;
 }
 
 /** Zeigt das Ergebnis bzw. "–:–", solange kein Stand vorliegt. */
-export function ScoreDisplay({ homeScore, awayScore }: ScoreDisplayProps) {
+export function ScoreDisplay({ homeScore, awayScore, className }: ScoreDisplayProps) {
   const hasScore =
     homeScore !== null &&
     homeScore !== undefined &&
@@ -13,14 +16,17 @@ export function ScoreDisplay({ homeScore, awayScore }: ScoreDisplayProps) {
 
   if (!hasScore) {
     return (
-      <span className="tabular-nums text-slate-400" aria-label="noch kein Ergebnis">
+      <span
+        className={cn("font-semibold tabular-nums text-muted-foreground", className)}
+        aria-label="noch kein Ergebnis"
+      >
         –&nbsp;:&nbsp;–
       </span>
     );
   }
 
   return (
-    <span className="font-semibold tabular-nums text-slate-900">
+    <span className={cn("font-semibold tabular-nums", className)}>
       {homeScore}&nbsp;:&nbsp;{awayScore}
     </span>
   );

@@ -34,10 +34,10 @@ export default async function ProfilePage({
 
   return (
     <Container>
-      <h1 className="mb-1 text-2xl font-bold text-slate-900">
+      <h1 className="mb-1 text-2xl font-bold">
         {profile.displayName}
       </h1>
-      <p className="mb-6 text-sm text-slate-500">Spielerprofil</p>
+      <p className="mb-6 text-sm text-muted-foreground">Spielerprofil</p>
 
       <section className="mb-8" aria-labelledby="stats-heading">
         <h2 id="stats-heading" className="sr-only">
@@ -47,7 +47,7 @@ export default async function ProfilePage({
       </section>
 
       <section className="mb-8" aria-labelledby="tiers-heading">
-        <h2 id="tiers-heading" className="mb-3 text-lg font-semibold text-slate-900">
+        <h2 id="tiers-heading" className="mb-3 text-lg font-semibold">
           Punktstufen-Verteilung
         </h2>
         <TierDistribution distribution={profile.distribution} />
@@ -56,7 +56,7 @@ export default async function ProfilePage({
       <section aria-labelledby="history-heading">
         <h2
           id="history-heading"
-          className="mb-3 text-lg font-semibold text-slate-900"
+          className="mb-3 text-lg font-semibold"
         >
           Tipp-Historie
         </h2>

@@ -1,43 +1,33 @@
 import type { ProfileTip } from "@/lib/api/types";
 import { EmptyState } from "@/components/feedback/EmptyState";
+import { cn } from "@/lib/utils";
 
 function resultText(tip: ProfileTip): string {
   if (tip.resultHome == null || tip.resultAway == null) return "–:–";
   return `${tip.resultHome}:${tip.resultAway}`;
 }
 
-function TipRow({ tip }: { tip: ProfileTip }) {
+function HighlightCard({
+  title,
+  tip,
+  accent,
+}: {
+  title: string;
+  tip: ProfileTip;
+  accent: string;
+}) {
   return (
-    <div className="grid grid-cols-[1fr_auto] items-center gap-3 px-3 py-2 text-sm">
-      <span className="truncate text-slate-800">
-        {tip.home} – {tip.away}
-      </span>
-      <span className="flex items-center gap-4 tabular-nums">
-        <span className="text-slate-500">
-          Tipp {tip.tipHome}:{tip.tipAway}
-        </span>
-        <span className="text-slate-500">Ergebnis {resultText(tip)}</span>
-        <span className="w-10 text-right font-semibold text-slate-900">
-          {tip.points} P
-        </span>
-      </span>
-    </div>
-  );
-}
-
-function HighlightCard({ title, tip, accent }: { title: string; tip: ProfileTip; accent: string }) {
-  return (
-    <div className={`rounded-lg border p-3 ${accent}`}>
-      <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <div className={cn("rounded-lg border-l-2 bg-card p-4 shadow-sm", accent)}>
+      <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
         {title}
       </div>
-      <div className="text-sm text-slate-800">
+      <div className="font-medium">
         {tip.home} – {tip.away}
       </div>
-      <div className="mt-1 flex items-center gap-3 text-sm tabular-nums text-slate-600">
+      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm tabular-nums text-muted-foreground">
         <span>Tipp {tip.tipHome}:{tip.tipAway}</span>
         <span>Ergebnis {resultText(tip)}</span>
-        <span className="font-semibold text-slate-900">{tip.points} P</span>
+        <span className="font-semibold text-foreground">{tip.points} P</span>
       </div>
     </div>
   );
@@ -56,17 +46,13 @@ export function TipHistory({ history, bestTip, worstTip }: TipHistoryProps) {
       {bestTip || worstTip ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {bestTip ? (
-            <HighlightCard
-              title="Bester Tipp"
-              tip={bestTip}
-              accent="border-status-finished bg-green-50"
-            />
+            <HighlightCard title="Bester Tipp" tip={bestTip} accent="border-l-success" />
           ) : null}
           {worstTip ? (
             <HighlightCard
               title="Schlechtester Tipp"
               tip={worstTip}
-              accent="border-status-live bg-red-50"
+              accent="border-l-destructive"
             />
           ) : null}
         </div>
@@ -78,9 +64,23 @@ export function TipHistory({ history, bestTip, worstTip }: TipHistoryProps) {
           message="Sobald Tipps gewertet wurden, erscheinen sie hier."
         />
       ) : (
-        <div className="divide-y divide-surface-border rounded-lg border border-surface-border">
+        <div className="divide-y rounded-lg border bg-card">
           {history.map((tip, index) => (
-            <TipRow key={`${tip.home}-${tip.away}-${index}`} tip={tip} />
+            <div
+              key={`${tip.home}-${tip.away}-${index}`}
+              className="grid grid-cols-[1fr_auto] items-center gap-3 px-4 py-2.5 text-sm"
+            >
+              <span className="truncate">
+                {tip.home} <span className="text-muted-foreground">–</span> {tip.away}
+              </span>
+              <span className="flex items-center gap-3 tabular-nums text-muted-foreground sm:gap-4">
+                <span className="hidden sm:inline">Tipp {tip.tipHome}:{tip.tipAway}</span>
+                <span>{resultText(tip)}</span>
+                <span className="min-w-10 rounded-md bg-secondary px-2 py-0.5 text-right text-xs font-semibold text-foreground">
+                  {tip.points} P
+                </span>
+              </span>
+            </div>
           ))}
         </div>
       )}

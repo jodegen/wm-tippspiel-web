@@ -1,13 +1,14 @@
 import type { Profile } from "@/lib/api/types";
+import { Card } from "@/components/ui/card";
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg border border-surface-border bg-surface p-4 text-center">
-      <div className="text-2xl font-bold tabular-nums text-slate-900">{value}</div>
-      <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">
+    <Card className="p-4 text-center">
+      <div className="text-2xl font-semibold tabular-nums">{value}</div>
+      <div className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">
         {label}
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -20,9 +21,7 @@ export function StatsSummary({ profile }: { profile: Profile }) {
       <Stat label="Gewertete Tipps" value={profile.evaluatedTips} />
       <Stat
         label="Trefferquote"
-        value={
-          profile.hitRatePercent != null ? `${profile.hitRatePercent} %` : "–"
-        }
+        value={profile.hitRatePercent != null ? `${profile.hitRatePercent} %` : "–"}
       />
     </div>
   );

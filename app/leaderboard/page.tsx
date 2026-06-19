@@ -14,7 +14,7 @@ export default async function LeaderboardPage() {
   } catch {
     return (
       <Container>
-        <h1 className="mb-4 text-2xl font-bold text-slate-900">Rangliste</h1>
+        <h1 className="mb-4 text-2xl font-bold">Rangliste</h1>
         <ErrorState />
       </Container>
     );
@@ -22,7 +22,7 @@ export default async function LeaderboardPage() {
 
   return (
     <Container>
-      <h1 className="mb-4 text-2xl font-bold text-slate-900">Rangliste</h1>
+      <h1 className="mb-4 text-2xl font-bold">Rangliste</h1>
       {entries.length === 0 ? (
         <EmptyState
           title="Noch keine Rangliste"

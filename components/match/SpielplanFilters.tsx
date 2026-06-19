@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { Select } from "@/components/ui/select";
 import type { FilterOption } from "@/lib/filters";
 
 interface SpielplanFiltersProps {
@@ -27,11 +28,8 @@ export function SpielplanFilters({
   const updateParam = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
+      if (value) params.set(key, value);
+      else params.delete(key);
       const qs = params.toString();
       router.replace(qs ? `/spielplan?${qs}` : "/spielplan", { scroll: false });
     },
@@ -40,12 +38,11 @@ export function SpielplanFilters({
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium text-slate-700">Phase</span>
-        <select
+      <label className="flex flex-1 flex-col gap-1.5 text-sm sm:max-w-52">
+        <span className="font-medium">Phase</span>
+        <Select
           value={selectedPhase}
           onChange={(e) => updateParam("phase", e.target.value)}
-          className="rounded-md border border-surface-border bg-surface px-3 py-2 text-sm"
         >
           <option value="">Alle Phasen</option>
           {phaseOptions.map((opt) => (
@@ -53,15 +50,14 @@ export function SpielplanFilters({
               {opt.label}
             </option>
           ))}
-        </select>
+        </Select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium text-slate-700">Spieltag</span>
-        <select
+      <label className="flex flex-1 flex-col gap-1.5 text-sm sm:max-w-52">
+        <span className="font-medium">Spieltag</span>
+        <Select
           value={selectedMatchday}
           onChange={(e) => updateParam("matchday", e.target.value)}
-          className="rounded-md border border-surface-border bg-surface px-3 py-2 text-sm"
         >
           <option value="">Alle Spieltage</option>
           {matchdayOptions.map((opt) => (
@@ -69,7 +65,7 @@ export function SpielplanFilters({
               {opt.label}
             </option>
           ))}
-        </select>
+        </Select>
       </label>
     </div>
   );

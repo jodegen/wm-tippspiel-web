@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="de">
-      <body className="min-h-full font-sans antialiased">
+      <body className="min-h-dvh font-sans">
         <a href="#main" className="skip-link">
           Zum Inhalt springen
         </a>

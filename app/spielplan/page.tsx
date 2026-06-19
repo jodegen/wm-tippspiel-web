@@ -36,7 +36,7 @@ export default async function SpielplanPage({
   } catch {
     return (
       <Container>
-        <h1 className="mb-4 text-2xl font-bold text-slate-900">Spielplan</h1>
+        <h1 className="mb-4 text-2xl font-bold">Spielplan</h1>
         <ErrorState />
       </Container>
     );
@@ -51,7 +51,7 @@ export default async function SpielplanPage({
 
   return (
     <Container>
-      <h1 className="mb-4 text-2xl font-bold text-slate-900">Spielplan</h1>
+      <h1 className="mb-4 text-2xl font-bold">Spielplan</h1>
 
       <div className="mb-6">
         <Suspense fallback={null}>

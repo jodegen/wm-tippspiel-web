@@ -47,6 +47,11 @@ export interface LeaderboardRow {
   exactHits: number;
   /** Vorgefertigte Anzeige: "NEU" / "↑n" / "↓n" / "–". */
   rankChange: string;
+  /**
+   * Öffentlicher, HMAC-abgeleiteter Identifier für die Profil-Verlinkung (FR-006).
+   * Optional, bis das Backend das Feld in der Leaderboard-Antwort liefert.
+   */
+  publicId?: string;
 }
 
 export interface PublicTip {
