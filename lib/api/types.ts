@@ -110,3 +110,50 @@ export interface Profile {
   worstTip?: ProfileTip | null;
   history: ProfileTip[];
 }
+
+/* --- K.o.-Turnierbaum (/bracket) ----------------------------------------- */
+
+/** Runden-Kennung des K.o.-Baums (Backend liefert sie in dieser Reihenfolge). */
+export type BracketStage =
+  | "LAST_32"
+  | "LAST_16"
+  | "QUARTER_FINALS"
+  | "SEMI_FINALS"
+  | "THIRD_PLACE"
+  | "FINAL";
+
+/** Eine Seite einer K.o.-Begegnung: realer Teamname ODER Platzhalter. */
+export interface BracketTeam {
+  teamName: string | null;
+  placeholder: string | null;
+}
+
+/** Ein einzelnes K.o.-Spiel inkl. Pfad-Verknüpfung über `fifaMatchNo`. */
+export interface BracketMatch {
+  fifaMatchNo: number;
+  matchId: number;
+  home: BracketTeam;
+  away: BracketTeam;
+  homeScore?: number | null;
+  awayScore?: number | null;
+  status: MatchStatus;
+  /** Gewinnerkennung; Gestalt TBC (Teamname oder "HOME"/"AWAY"). null, solange offen. */
+  winner?: string | null;
+  /** `fifaMatchNo` der speisenden Spiele (leer im Sechzehntelfinale). */
+  sourceMatchNos: number[];
+  /** `fifaMatchNo` des Folgespiels; null bei FINAL/THIRD_PLACE. */
+  nextMatchNo?: number | null;
+  /** Optional: Anstoßzeit, falls /bracket sie liefert (sonst aus /schedule angereichert). */
+  kickoffUtc?: string | null;
+}
+
+export interface BracketRound {
+  stage: BracketStage;
+  /** Deutsche Anzeige vom Backend, z. B. "Sechzehntelfinale". */
+  label: string;
+  matches: BracketMatch[];
+}
+
+export interface Bracket {
+  rounds: BracketRound[];
+}

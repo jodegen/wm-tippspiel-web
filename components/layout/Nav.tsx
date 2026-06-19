@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { href: "/spielplan", label: "Spielplan" },
   { href: "/leaderboard", label: "Rangliste" },
+  { href: "/bracket", label: "Baum" },
   { href: "/live", label: "Live" },
 ] as const;
 

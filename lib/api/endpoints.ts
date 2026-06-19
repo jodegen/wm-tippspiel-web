@@ -33,6 +33,7 @@ export const endpoints = {
         query.matchday !== undefined ? String(query.matchday) : undefined,
     }),
   liveMatches: (): string => "/matches/live",
+  bracket: (): string => "/bracket",
   leaderboard: (): string => "/leaderboard",
   matchTips: (matchId: number | string): string =>
     `/matches/${encodeURIComponent(String(matchId))}/tips`,
