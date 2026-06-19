@@ -103,11 +103,11 @@ clientseitig automatisch (45 s, Korridor 30–60 s) ohne Reload.
 **Independent Test**: `/live` bei laufenden Spielen öffnen; Stand aktualisiert sich
 ≤ 60 s; ohne laufende Spiele Hinweis „aktuell keine laufenden Spiele".
 
-- [ ] T028 [P] [US3] `getLiveMatches({ signal })`-Datenfunktion (clientseitig, kein Cache; Fallback: `getMatches` nach `status=live` filtern) in `lib/api/live.ts`
-- [ ] T029 [P] [US3] Generischer Polling-Hook `usePolling(fn, intervalMs)` mit Visibility-Pause und „letzten Stand behalten" in `hooks/usePolling.ts`
-- [ ] T030 [US3] Client-Component `LiveMatches` (`'use client'`): nutzt `usePolling` + `MatchCard`, zeigt Empty-/Error-States in `app/live/LiveMatches.tsx`
-- [ ] T031 [US3] Server-Shell `app/live/page.tsx` (rendert `LiveMatches`, ggf. initiale Daten)
-- [ ] T032 [P] [US3] Unit-Test für `usePolling` (Intervall, Visibility-Pause, Beibehalten bei Fehler) in `tests/unit/usePolling.test.ts`
+- [X] T028 [P] [US3] `getLiveMatches({ signal })`-Datenfunktion (clientseitig, kein Cache; Fallback: `getMatches` nach `status=live` filtern) in `lib/api/live.ts`
+- [X] T029 [P] [US3] Generischer Polling-Hook `usePolling(fn, intervalMs)` mit Visibility-Pause und „letzten Stand behalten" in `hooks/usePolling.ts`
+- [X] T030 [US3] Client-Component `LiveMatches` (`'use client'`): nutzt `usePolling` + `MatchCard`, zeigt Empty-/Error-States in `app/live/LiveMatches.tsx`
+- [X] T031 [US3] Server-Shell `app/live/page.tsx` (rendert `LiveMatches`, ggf. initiale Daten)
+- [X] T032 [P] [US3] Unit-Test für `usePolling` (Intervall, Visibility-Pause, Beibehalten bei Fehler) in `tests/unit/usePolling.test.ts`
 
 **Checkpoint**: Spielplan, Leaderboard UND Live funktionieren unabhängig
 
