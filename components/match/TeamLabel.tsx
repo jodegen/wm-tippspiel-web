@@ -1,18 +1,31 @@
+import { flagEmoji } from "@/lib/flags";
 import { cn } from "@/lib/utils";
 
-/** Einheitliche Team-Darstellung (Backend liefert den Teamnamen als String). */
+/** Team-Darstellung mit Flaggen-Emoji (falls Land bekannt). */
 export function TeamLabel({
   name,
   align = "left",
+  className,
 }: {
   name: string;
   align?: "left" | "right";
+  className?: string;
 }) {
+  const flag = flagEmoji(name);
   return (
     <span
-      className={cn("truncate font-medium", align === "right" && "text-right")}
+      className={cn(
+        "inline-flex min-w-0 items-center gap-1.5 font-medium",
+        align === "right" && "flex-row-reverse",
+        className,
+      )}
     >
-      {name}
+      {flag ? (
+        <span aria-hidden className="shrink-0 text-base leading-none">
+          {flag}
+        </span>
+      ) : null}
+      <span className="truncate">{name}</span>
     </span>
   );
 }

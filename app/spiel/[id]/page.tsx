@@ -7,6 +7,7 @@ import { phaseLabel } from "@/lib/filters";
 import { Container } from "@/components/layout/Container";
 import { MatchStatusBadge } from "@/components/match/MatchStatusBadge";
 import { ScoreDisplay } from "@/components/match/ScoreDisplay";
+import { TeamLabel } from "@/components/match/TeamLabel";
 import { MatchTips } from "@/components/match/MatchTips";
 import { ErrorState } from "@/components/feedback/ErrorState";
 import type { Match, MatchTips as MatchTipsDto } from "@/lib/api/types";
@@ -57,13 +58,17 @@ export default async function MatchDetailPage({
       </div>
 
       <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-center gap-4 rounded-lg border bg-card p-6 shadow-sm">
-        <span className="truncate text-lg font-semibold">{match.home}</span>
+        <TeamLabel name={match.home} className="text-lg font-semibold" />
         <ScoreDisplay
           homeScore={match.homeScore}
           awayScore={match.awayScore}
           className="text-3xl"
         />
-        <span className="truncate text-right text-lg font-semibold">{match.away}</span>
+        <TeamLabel
+          name={match.away}
+          align="right"
+          className="justify-end text-lg font-semibold"
+        />
       </div>
 
       <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">

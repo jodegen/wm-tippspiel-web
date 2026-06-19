@@ -13,7 +13,13 @@ import {
 import { ErrorState } from "@/components/feedback/ErrorState";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InfoTooltip } from "@/components/ui/info-tooltip";
 import { EmptyState } from "@/components/feedback/EmptyState";
@@ -83,6 +89,10 @@ export default async function ProfilePage({
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm">Punkteverlauf</CardTitle>
+                <CardDescription>
+                  Summe der Punkte über die gewerteten Tipps (chronologisch,
+                  Tipp&nbsp;1 = erster).
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {profile.history.length > 0 ? (
@@ -99,6 +109,9 @@ export default async function ProfilePage({
                   Punktstufen-Verteilung
                   <InfoTooltip text="4 P = exakter Treffer · 3 P = richtige Tordifferenz · 2 P = richtige Tendenz · 0 P = daneben" />
                 </CardTitle>
+                <CardDescription>
+                  Wie oft welche Punktzahl pro Tipp erreicht wurde.
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <DistributionChart distribution={profile.distribution} />
